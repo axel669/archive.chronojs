@@ -81,7 +81,7 @@ var startMethods = {
 alias(startMethods, aliasMethods);
 
 var formatList = {
-    monthShort: ['Jan'],
+    monthShort: ['Jan', 'Feb', 'Mar', 'April', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     month: [],
     day: [],
     dayShort: []
@@ -100,6 +100,57 @@ var formatMethods = {
     },
     MMMM: function MMMM(date) {
         return formatList.month[date.month];
+    },
+    D: function D(date) {
+        return date.date;
+    },
+    DD: function DD(date) {
+        return ('0' + date.date).slice(-2);
+    },
+    DDD: function DDD(date) {
+        return '';
+    },
+    DDDD: function DDDD(date) {
+        return '';
+    },
+    d: function d(date) {
+        return date.dayOfWeek;
+    },
+    dd: function dd(date) {
+        return formatList.dayShort[date.dayOfWeek].slice(0, 2);
+    },
+    ddd: function ddd(date) {
+        return formatList.dayShort[date.dayOfWeek];
+    },
+    dddd: function dddd(date) {
+        return '';
+    },
+    E: function E(date) {
+        return date.dayOfWeek + 1;
+    },
+    YY: function YY(date) {
+        return ('0' + date.year).slice(-2);
+    },
+    YYYY: function YYYY(date) {
+        return date.year;
+    },
+    h: function h(date) {
+        return date.hour;
+    },
+    hh: function hh(date) {
+        return ('0' + date.hours).slice(-2);
+    },
+    m: function m(date) {
+        return date.minutes;
+    },
+    mm: function mm(date) {
+        return ('0' + date.minutes).slice(-2);
+    },
+    s: function s(date) {
+        return date.seconds;
+    },
+    ss: function ss(date) {
+        return ('0' + date.seconds).slice(-2);
     }
 };
 
@@ -175,6 +226,7 @@ var ChronoProto = {
             seconds: dif.utcSeconds,
             minutes: dif.utcMinutes,
             hours: dif.utcHours,
+            days: dif.utcDate - 1,
             month: dif.utcMonth,
             years: dif.utcYear - 1970,
             time: dif.time

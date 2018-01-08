@@ -92,7 +92,7 @@ alias(
 );
 
 const formatList = {
-    monthShort: ['Jan', ],
+    monthShort: ['Jan', 'Feb', 'Mar', 'April', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     month: [],
     day: [],
     dayShort: []
@@ -103,7 +103,24 @@ const formatMethods = {
     M: date => date.month,
     MM: date => `0${date.month}`.slice(-2),
     MMM: date => formatList.monthShort[date.month],
-    MMMM: date => formatList.month[date.month]
+    MMMM: date => formatList.month[date.month],
+    D: date => date.date,
+    DD: date => `0${date.date}`.slice(-2),
+    DDD: date => '',
+    DDDD: date => '',
+    d: date => date.dayOfWeek,
+    dd: date => formatList.dayShort[date.dayOfWeek].slice(0, 2),
+    ddd: date => formatList.dayShort[date.dayOfWeek],
+    dddd: date => '',
+    E: date => date.dayOfWeek + 1,
+    YY: date => `0${date.year}`.slice(-2),
+    YYYY: date => date.year,
+    h: date => date.hour,
+    hh: date => `0${date.hours}`.slice(-2),
+    m: date => date.minutes,
+    mm: date => `0${date.minutes}`.slice(-2),
+    s: date => date.seconds,
+    ss: date => `0${date.seconds}`.slice(-2)
 };
 
 const ChronoProto = {
@@ -180,6 +197,7 @@ const ChronoProto = {
             seconds: dif.utcSeconds,
             minutes: dif.utcMinutes,
             hours: dif.utcHours,
+            days: dif.utcDate - 1,
             month: dif.utcMonth,
             years: dif.utcYear - 1970,
             time: dif.time
