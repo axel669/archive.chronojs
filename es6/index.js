@@ -93,7 +93,11 @@ alias(
 
 const formatList = {
     monthShort: ['Jan', 'Feb', 'Mar', 'April', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    month: [],
+    month: [
+        'January', 'February', 'March', 'April',
+        'May', 'June', 'July', 'August',
+        'September', 'October', 'November', 'December'
+    ],
     day: [],
     dayShort: []
 };
