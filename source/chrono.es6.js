@@ -273,10 +273,10 @@
     };
     Chrono.sortDesc = (first, second) => -Chrono.sortAsc(first, second);
 
-    if (typeof window !== 'undefined') {
-        window.Chrono = Chrono;
-    }
     if (typeof module !== 'undefined') {
         module.exports = Chrono;
+    }
+    else {
+        window.Chrono = Chrono;
     }
 })();
