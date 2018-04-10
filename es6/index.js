@@ -7,6 +7,7 @@
         ['day', ['days']],
         ['wk', ['weeks', 'week']],
         ['mon', ['months', 'month']],
+        ['qtr', ['quarter', 'quaters']],
         ['yr', ['years', 'year']],
         ['decade', ['decades']]
     ];
@@ -81,7 +82,7 @@
             startMethods.day(date);
             date.setDate(1);
         },
-        quarters(date) {
+        qtr(date) {
             startMethods.days(date);
             const month = date.month;
             date.setMonth(month - month % 4);
@@ -93,6 +94,35 @@
     };
     alias(
         startMethods,
+        aliasMethods
+    );
+
+    const endMethods = {
+        s(date) {
+            date.setMilliseconds(999);
+        },
+        min(date) {
+            date.setSeconds(59, 999);
+        },
+        hr(date) {
+            date.setMinutes(59, 59, 999);
+        },
+        day(date) {
+            date.setHours(23, 59, 59, 999);
+        },
+        mon(date) {
+            endMethods.day(date);
+            date.setDate(1);
+            date.setMonth(date.month + 1);
+            date.setDate(0);
+        },
+        yr(date) {
+            endMethods.day(date);
+            date.setMonth(11, 31);
+        }
+    };
+    alias(
+        endMethods,
         aliasMethods
     );
 
@@ -124,6 +154,7 @@
         HH: date => `0${date.hours}`.slice(-2),
         m: date => date.minutes,
         mm: date => `0${date.minutes}`.slice(-2),
+        mmm: date => `00${date.milliseconds}`.slice(-3),
         M: date => date.month + 1,
         MM: date => `0${date.month + 1}`.slice(-2),
         MMM: date => formatList.monthShort[date.month],
@@ -131,7 +162,7 @@
         s: date => date.seconds,
         ss: date => `0${date.seconds}`.slice(-2),
         t: date => (date.hours < 12) ? "A" : "P",
-        tt: date => (date.hours < 12) ? "AA" : "PM",
+        tt: date => (date.hours < 12) ? "AM" : "PM",
         TT: date => (date.year < 0) ? "BC" : "AD",
         yy: date => `0${date.year}`.slice(-2),
         yyyy: date => date.year
@@ -204,6 +235,12 @@
         startOf(unit) {
             const newChrono = new Chrono(this);
             startMethods[unit](newChrono);
+
+            return newChrono;
+        },
+        endOf(unit) {
+            const newChrono = new Chrono(this);
+            endMethods[unit](newChrono);
 
             return newChrono;
         },

@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-    var aliasMethods = [['ms', ['milliseconds', 'millisecond']], ['s', ['seconds', 'second']], ['min', ['minutes', 'minute']], ['hr', ['hours', 'hour']], ['day', ['days']], ['wk', ['weeks', 'week']], ['mon', ['months', 'month']], ['yr', ['years', 'year']], ['decade', ['decades']]];
+    var aliasMethods = [['ms', ['milliseconds', 'millisecond']], ['s', ['seconds', 'second']], ['min', ['minutes', 'minute']], ['hr', ['hours', 'hour']], ['day', ['days']], ['wk', ['weeks', 'week']], ['mon', ['months', 'month']], ['qtr', ['quarter', 'quaters']], ['yr', ['years', 'year']], ['decade', ['decades']]];
 
     var alias = function alias(source, aliases) {
         return aliases.forEach(function (aliasInfo) {
@@ -73,7 +73,7 @@
             startMethods.day(date);
             date.setDate(1);
         },
-        quarters: function quarters(date) {
+        qtr: function qtr(date) {
             startMethods.days(date);
             var month = date.month;
             date.setMonth(month - month % 4);
@@ -84,6 +84,32 @@
         }
     };
     alias(startMethods, aliasMethods);
+
+    var endMethods = {
+        s: function s(date) {
+            date.setMilliseconds(999);
+        },
+        min: function min(date) {
+            date.setSeconds(59, 999);
+        },
+        hr: function hr(date) {
+            date.setMinutes(59, 59, 999);
+        },
+        day: function day(date) {
+            date.setHours(23, 59, 59, 999);
+        },
+        mon: function mon(date) {
+            endMethods.day(date);
+            date.setDate(1);
+            date.setMonth(date.month + 1);
+            date.setDate(0);
+        },
+        yr: function yr(date) {
+            endMethods.day(date);
+            date.setMonth(11, 31);
+        }
+    };
+    alias(endMethods, aliasMethods);
 
     var formatList = {
         monthShort: ['Jan', 'Feb', 'Mar', 'April', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -139,6 +165,9 @@
         mm: function mm(date) {
             return ('0' + date.minutes).slice(-2);
         },
+        mmm: function mmm(date) {
+            return ('00' + date.milliseconds).slice(-3);
+        },
         M: function M(date) {
             return date.month + 1;
         },
@@ -161,7 +190,7 @@
             return date.hours < 12 ? "A" : "P";
         },
         tt: function tt(date) {
-            return date.hours < 12 ? "AA" : "PM";
+            return date.hours < 12 ? "AM" : "PM";
         },
         TT: function TT(date) {
             return date.year < 0 ? "BC" : "AD";
@@ -241,6 +270,12 @@
         startOf: function startOf(unit) {
             var newChrono = new Chrono(this);
             startMethods[unit](newChrono);
+
+            return newChrono;
+        },
+        endOf: function endOf(unit) {
+            var newChrono = new Chrono(this);
+            endMethods[unit](newChrono);
 
             return newChrono;
         },
