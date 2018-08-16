@@ -78,6 +78,9 @@
         day(date) {
             date.setHours(0, 0, 0, 0);
         },
+        week(date) {
+            // n, s -> -(n - s + n < s ? 7 : 0)
+        },
         mon(date) {
             startMethods.day(date);
             date.setDate(1);
