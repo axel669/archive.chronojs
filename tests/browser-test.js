@@ -1,6 +1,6 @@
 const now = Chrono("Mon Jan 01 2018 20:17:09 GMT-0800");
 const now2 = Chrono("Mon Jan 01 2018 20:17:09 GMT-0700");
-const other = now.shift(12345, 'hour');
+const other = now.shift(12345, 'hr');
 
 console.log(now.format("[testing] hh:mm:ss:mmmtt yyyyTT"));
 console.log(now.toUTCString());

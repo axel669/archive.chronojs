@@ -16,7 +16,10 @@
         (aliasInfo) => {
             const base = aliasInfo[0];
             const aliasList = aliasInfo[1];
-            aliasList.forEach(alias => source[alias] = source[base]);
+            for (const alias in aliasList) {
+                source[alias] = source[base];
+            }
+            // aliasList.forEach(alias => source[alias] = source[base]);
         }
     );
 
