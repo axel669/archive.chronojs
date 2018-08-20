@@ -52,7 +52,8 @@ const genLocaleData = do {
     });
 };
 const loadLoc = loc => {
-    if (loadedLocales[loc] === undefined) {
+    // if (loadedLocales[loc] === undefined) {
+    if (loadedLocales.hasOwnProperty(loc) === false) {
         const base = do {
             if (localeArgMap[loc] !== undefined) {
                 localeArgMap[loc];
@@ -177,8 +178,8 @@ const formatPattern = /\[.*?\]|(\w)\1{0,3}/g;
 const formatMethods = {
     d: date => date.dayOfWeek,
     dd: date => date.localeData.dayNarrow[date.dayOfWeek],
-    dd: date => date.localeData.dayShort[date.dayOfWeek],
-    dd: date => date.localeData.dayLong[date.dayOfWeek],
+    ddd: date => date.localeData.dayShort[date.dayOfWeek],
+    dddd: date => date.localeData.dayLong[date.dayOfWeek],
     D: date => date.date,
     DD: date => `0${date.date}`.slice(-2),
     DDD: date => '',
@@ -340,10 +341,10 @@ const Chrono = (...args) => {
                 year = src.getFullYear(),
                 month = src.getMonth(),
                 day = src.getDate() - 1,
-                hour = src.getHours(),
-                minute = src.getMinutes(),
-                second = src.getSeconds(),
-                millisecond = src.getMilliseconds()
+                hour = 0,
+                minute = 0,
+                second = 0,
+                millisecond = 0
             } = args[0] ?? {};
             return new Date(year, month, day + 1, hour, minute, second, millisecond);
         }
@@ -417,16 +418,196 @@ Chrono.sortAsc = (first, second) => {
     return 0;
 };
 Chrono.sortDesc = (first, second) => -Chrono.sortAsc(first, second);
-Chrono.parse = (dateString, locale = null, format = null) => {
+const isNum = i => (i >= 0x30 && i <= 0x39) ? 1 : -1;
+const isNumO = i => (i >= 0x30 && i <= 0x39) ? 1 : 0;
+const letter = l =>
+    i => (l === i) ? 1 : -1;
+const letterChoice = (...choices) => {
+    choices = choices.map(l => l.charCodeAt(0));
+    return i => (choices.indexOf(i) !== -1) ? 1 : -1;
+}
+const any = () => 1;
+// const consume = () => {};
+const consumeTokens = (toks, str, index) => {
+    let i = 0;
+    let t = 0;
+    while (i < toks.length) {
+        const tok = toks[i];
+        const res = tok(str.charCodeAt(index + t));
+        // const res = tok(str, index + t);
+        if (res === -1) {
+            return null;
+        }
+        t += res;
+        i += 1;
+    }
+    return t;
+};
+const parseMethods = {
+    D: {
+        match: [isNum, isNumO],
+        value: match => parseInt(match) - 1,
+        check: (value) => value >= 0 && value <= 31,
+        process: (d, value) => d.day = value
+    },
+    DD: {
+        match: [isNum, isNum],
+        value: match => parseInt(match) - 1,
+        check: (value) => value >= 0 && value <= 31,
+        process: (d, value) => d.day = value
+    },
+    h: {
+        match: [isNum, isNumO],
+        value: match => parseInt(match),
+        check: value => value >=0 && value <=24,
+        process: (d, value) => d.hour = value
+    },
+    hh: {
+        match: [isNum, isNum],
+        value: match => parseInt(match),
+        check: value => value >=0 && value <=24,
+        process: (d, value) => d.hour = value
+    },
+    m: {
+        match: [isNum, isNumO],
+        value: match => parseInt(match),
+        check: value => value >=0 && value <= 59,
+        process: (d, value) => d.minute = value
+    },
+    mm: {
+        match: [isNum, isNum],
+        value: match => parseInt(match),
+        check: value => value >=0 && value <= 59,
+        process: (d, value) => d.minute = value
+    },
+    mmm: {
+        match: [isNum, isNum, isNum],
+        value: match => parseInt(match),
+        check: value => value >=0 && value <= 999,
+        process: (d, value) => d.millisecond = value
+    },
+    M: {
+        match: [isNum, isNumO],
+        value: match => parseInt(match) - 1,
+        check: value => value >=0 && value <= 11,
+        process: (d, value) => d.month = value
+    },
+    MM: {
+        match: [isNum, isNum],
+        value: match => parseInt(match) - 1,
+        check: value => value >=0 && value <= 11,
+        process: (d, value) => d.month = value
+    },
+    s: {
+        match: [isNum, isNumO],
+        value: match => parseInt(match),
+        check: value => value >=0 && value <= 59,
+        process: (d, value) => d.second = value
+    },
+    ss: {
+        match: [isNum, isNum],
+        value: match => parseInt(match),
+        check: value => value >=0 && value <= 59,
+        process: (d, value) => d.second = value
+    },
+    t: {
+        match: [letterChoice("A", "P", "a", "p")],
+        value: i => i,
+        check: () => true,
+        process: (d, value) => {
+            if (value.toLowerCase() === "p") {
+                d.hour += 12;
+            }
+        }
+    },
+    tt: {
+        match: [letterChoice("A", "P", "a", "p"), letterChoice("M", "m")],
+        value: i => i,
+        check: () => true,
+        process: (d, value) => {
+            if (value.toLowerCase() === "pm") {
+                d.hour += 12;
+            }
+        }
+    },
+    yy: {
+        match: [isNum, isNum],
+        value: match => 1900 + parseInt(match),
+        check: () => true,
+        process: (d, value) => d.year = value
+    },
+    yyyy: {
+        match: [isNum, isNum, isNum, isNum],
+        value: match => parseInt(match),
+        check: () => true,
+        process: (d, value) => d.year = value
+    }
+};
+parseMethods.H = parseMethods.h;
+parseMethods.HH = parseMethods.hh;
+parseMethods.YY = parseMethods.yy;
+parseMethods.YYYY = parseMethods.yyyy;
+const defaultParseMethod = (ch) => ({
+    match: [letter(ch)],
+    process: () => {},
+    check: () => true,
+    value: i => i
+});
+// const defaultParseMethod = {
+//     match: [any],
+//     process: () => {}
+// };
+const parseMethodRegex = new RegExp(`(${Object.keys(parseMethods).sort((a, b) => b.length - a.length).join("|")}|.)`, 'g');
+const genParser = format => {
+    const tokens = [];
+    const newFormat = format.replace(
+        parseMethodRegex,
+        (match) => {
+            const method = parseMethods[match];
+            tokens.push(method[1]);
+            return method[0];
+        }
+    );
+    const parseRegex = new RegExp(newFormat);
+    return [parseRegex, tokens];
+};
+Chrono.parse = (dateString, format = null, locale = null) => {
     if (format === null) {
         return Chrono(Date.parse(dateString));
     }
-    if (format === "L") {
-        format = loadLoc(locale).shortDateFormat;
+
+    let parseLocale = locale;
+    if (parseLocale === null) {
+        parseLocale = Chrono.defaultLocale;
     }
-    if (format === "LL") {
-        format = loadLoc(locale).longDateFormat;
+    parseLocale = parseLocale.toLowerCase();
+    if (format === null) {
+        return Chrono(Date.parse(dateString));
     }
+    const {longDateFormat, shortDateFormat} = loadLoc(parseLocale);
+    format = format.replace(/LL/g, longDateFormat);
+    format = format.replace(/L/g, shortDateFormat);
+
+    const tokens = format.match(parseMethodRegex);
+    const parseResult = {};
+    let i = 0;
+    let j = 0;
+    while (i < tokens.length) {
+        const token = tokens[i];
+        const method = parseMethods[token] ?? defaultParseMethod(token);
+        const t = consumeTokens(method.match, dateString, j);
+        const match = dateString.slice(j, j + t);
+        const value = method.value(match);
+
+        if (t === null || method.check(value) === false) {
+            return Chrono(new Date(NaN), locale ?? lowercaseDefaultLocale);
+        }
+
+        method.process(parseResult, value);
+        j += match.length;
+        i += 1;
+    }
+    return Chrono(parseResult, locale ?? lowercaseDefaultLocale);
 };
 
 export default Chrono;

@@ -89,7 +89,7 @@ var Chrono = (function () {
   }
 
   var country = [{
-    "week": 0,
+    "week": 1,
     "name": "Aruba",
     "iso2": "AW",
     "iso3": "ABW",
@@ -107,7 +107,7 @@ var Chrono = (function () {
     "longDateFormat": "YYYY/MM/DD",
     "shortDateFormat": "MM/DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Angola",
     "iso2": "AO",
     "iso3": "AGO",
@@ -134,7 +134,7 @@ var Chrono = (function () {
     "longDateFormat": "YYYY-MM-DD",
     "shortDateFormat": "MM-DD"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Albania",
     "iso2": "AL",
     "iso3": "ALB",
@@ -161,7 +161,7 @@ var Chrono = (function () {
     "longDateFormat": "DD-MM-YYYY",
     "shortDateFormat": "DD-MM"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "United Arab Emirates",
     "iso2": "AE",
     "iso3": "ARE",
@@ -170,7 +170,7 @@ var Chrono = (function () {
     "longDateFormat": "DD‏/MM‏/YYYY",
     "shortDateFormat": "DD‏/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Argentina",
     "iso2": "AR",
     "iso3": "ARG",
@@ -233,7 +233,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Austria",
     "iso2": "AT",
     "iso3": "AUT",
@@ -260,7 +260,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Belgium",
     "iso2": "BE",
     "iso3": "BEL",
@@ -314,7 +314,7 @@ var Chrono = (function () {
     "longDateFormat": "DD.MM.YYYY",
     "shortDateFormat": "DD.MM"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Bahrain",
     "iso2": "BH",
     "iso3": "BHR",
@@ -377,7 +377,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Bolivia",
     "iso2": "BO",
     "iso3": "BOL",
@@ -467,7 +467,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Switzerland",
     "iso2": "CH",
     "iso3": "CHE",
@@ -476,7 +476,7 @@ var Chrono = (function () {
     "longDateFormat": "DD.MM.YYYY",
     "shortDateFormat": "DD.MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Chile",
     "iso2": "CL",
     "iso3": "CHL",
@@ -539,7 +539,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Colombia",
     "iso2": "CO",
     "iso3": "COL",
@@ -548,7 +548,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Comoros",
     "iso2": "KM",
     "iso3": "COM",
@@ -557,7 +557,7 @@ var Chrono = (function () {
     "longDateFormat": "DD‏/MM‏/YYYY",
     "shortDateFormat": "DD‏/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Cape Verde",
     "iso2": "CV",
     "iso3": "CPV",
@@ -566,7 +566,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Costa Rica",
     "iso2": "CR",
     "iso3": "CRI",
@@ -575,7 +575,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Cuba",
     "iso2": "CU",
     "iso3": "CUB",
@@ -629,7 +629,7 @@ var Chrono = (function () {
     "longDateFormat": "DD. MM. YYYY",
     "shortDateFormat": "DD. MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Germany",
     "iso2": "DE",
     "iso3": "DEU",
@@ -647,7 +647,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Dominica",
     "iso2": "DM",
     "iso3": "DMA",
@@ -665,7 +665,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Dominican Republic",
     "iso2": "DO",
     "iso3": "DOM",
@@ -674,7 +674,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Algeria",
     "iso2": "DZ",
     "iso3": "DZA",
@@ -683,7 +683,7 @@ var Chrono = (function () {
     "longDateFormat": "DD‏/MM‏/YYYY",
     "shortDateFormat": "DD‏/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Ecuador",
     "iso2": "EC",
     "iso3": "ECU",
@@ -728,7 +728,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Estonia",
     "iso2": "EE",
     "iso3": "EST",
@@ -746,7 +746,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Finland",
     "iso2": "FI",
     "iso3": "FIN",
@@ -773,7 +773,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "France",
     "iso2": "FR",
     "iso3": "FRA",
@@ -809,7 +809,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "United Kingdom",
     "iso2": "GB",
     "iso3": "GBR",
@@ -899,7 +899,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Greece",
     "iso2": "GR",
     "iso3": "GRC",
@@ -926,7 +926,7 @@ var Chrono = (function () {
     "longDateFormat": "MM/DD/YYYY",
     "shortDateFormat": "MM/DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Guatemala",
     "iso2": "GT",
     "iso3": "GTM",
@@ -980,7 +980,7 @@ var Chrono = (function () {
     "longDateFormat": "MM/DD/YYYY",
     "shortDateFormat": "MM/DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Honduras",
     "iso2": "HN",
     "iso3": "HND",
@@ -998,7 +998,7 @@ var Chrono = (function () {
     "longDateFormat": "DD. MM. YYYY",
     "shortDateFormat": "DD. MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Haiti",
     "iso2": "HT",
     "iso3": "HTI",
@@ -1007,7 +1007,7 @@ var Chrono = (function () {
     "longDateFormat": "MM/DD/YYYY",
     "shortDateFormat": "MM/DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Hungary",
     "iso2": "HU",
     "iso3": "HUN",
@@ -1052,7 +1052,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Ireland",
     "iso2": "IE",
     "iso3": "IRL",
@@ -1079,7 +1079,7 @@ var Chrono = (function () {
     "longDateFormat": "DD‏/MM‏/YYYY",
     "shortDateFormat": "DD‏/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Iceland",
     "iso2": "IS",
     "iso3": "ISL",
@@ -1097,7 +1097,7 @@ var Chrono = (function () {
     "longDateFormat": "DD.MM.YYYY",
     "shortDateFormat": "DD.MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Italy",
     "iso2": "IT",
     "iso3": "ITA",
@@ -1124,7 +1124,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Jordan",
     "iso2": "JO",
     "iso3": "JOR",
@@ -1205,7 +1205,7 @@ var Chrono = (function () {
     "longDateFormat": "YYYY. MM. DD",
     "shortDateFormat": "MM. DD"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Kuwait",
     "iso2": "KW",
     "iso3": "KWT",
@@ -1223,7 +1223,7 @@ var Chrono = (function () {
     "longDateFormat": "YYYY-MM-DD",
     "shortDateFormat": "MM-DD"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Lebanon",
     "iso2": "LB",
     "iso3": "LBN",
@@ -1241,7 +1241,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Libya",
     "iso2": "LY",
     "iso3": "LBY",
@@ -1286,7 +1286,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Lithuania",
     "iso2": "LT",
     "iso3": "LTU",
@@ -1295,7 +1295,7 @@ var Chrono = (function () {
     "longDateFormat": "YYYY-MM-DD",
     "shortDateFormat": "MM-DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Luxembourg",
     "iso2": "LU",
     "iso3": "LUX",
@@ -1331,7 +1331,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Morocco",
     "iso2": "MA",
     "iso3": "MAR",
@@ -1340,7 +1340,7 @@ var Chrono = (function () {
     "longDateFormat": "DD‏/MM‏/YYYY",
     "shortDateFormat": "DD‏/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Monaco",
     "iso2": "MC",
     "iso3": "MCO",
@@ -1349,7 +1349,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Moldova",
     "iso2": "MD",
     "iso3": "MDA",
@@ -1376,7 +1376,7 @@ var Chrono = (function () {
     "longDateFormat": "MM/DD/YYYY",
     "shortDateFormat": "MM/DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Mexico",
     "iso2": "MX",
     "iso3": "MEX",
@@ -1430,7 +1430,7 @@ var Chrono = (function () {
     "longDateFormat": "YYYY-MM-DD",
     "shortDateFormat": "MM-DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Montenegro",
     "iso2": "ME",
     "iso3": "MNE",
@@ -1457,7 +1457,7 @@ var Chrono = (function () {
     "longDateFormat": "MM/DD/YYYY",
     "shortDateFormat": "MM/DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Mozambique",
     "iso2": "MZ",
     "iso3": "MOZ",
@@ -1466,7 +1466,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Mauritania",
     "iso2": "MR",
     "iso3": "MRT",
@@ -1574,7 +1574,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Nicaragua",
     "iso2": "NI",
     "iso3": "NIC",
@@ -1592,7 +1592,7 @@ var Chrono = (function () {
     "longDateFormat": "MM/DD/YYYY",
     "shortDateFormat": "MM/DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Netherlands",
     "iso2": "NL",
     "iso3": "NLD",
@@ -1601,7 +1601,7 @@ var Chrono = (function () {
     "longDateFormat": "DD-MM-YYYY",
     "shortDateFormat": "DD-MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Norway",
     "iso2": "NO",
     "iso3": "NOR",
@@ -1637,7 +1637,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Oman",
     "iso2": "OM",
     "iso3": "OMN",
@@ -1655,7 +1655,7 @@ var Chrono = (function () {
     "longDateFormat": "YYYY-MM-DD",
     "shortDateFormat": "MM-DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Panama",
     "iso2": "PA",
     "iso3": "PAN",
@@ -1673,7 +1673,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Peru",
     "iso2": "PE",
     "iso3": "PER",
@@ -1709,7 +1709,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Poland",
     "iso2": "PL",
     "iso3": "POL",
@@ -1718,7 +1718,7 @@ var Chrono = (function () {
     "longDateFormat": "DD.MM.YYYY",
     "shortDateFormat": "DD.MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Puerto Rico",
     "iso2": "PR",
     "iso3": "PRI",
@@ -1736,7 +1736,7 @@ var Chrono = (function () {
     "longDateFormat": "YYYY. MM. DD",
     "shortDateFormat": "MM. DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Portugal",
     "iso2": "PT",
     "iso3": "PRT",
@@ -1745,7 +1745,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Paraguay",
     "iso2": "PY",
     "iso3": "PRY",
@@ -1772,7 +1772,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Qatar",
     "iso2": "QA",
     "iso3": "QAT",
@@ -1790,7 +1790,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Romania",
     "iso2": "RO",
     "iso3": "ROU",
@@ -1799,7 +1799,7 @@ var Chrono = (function () {
     "longDateFormat": "DD.MM.YYYY",
     "shortDateFormat": "DD.MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Russia",
     "iso2": "RU",
     "iso3": "RUS",
@@ -1817,7 +1817,7 @@ var Chrono = (function () {
     "longDateFormat": "YYYY-MM-DD",
     "shortDateFormat": "MM-DD"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Saudi Arabia",
     "iso2": "SA",
     "iso3": "SAU",
@@ -1826,7 +1826,7 @@ var Chrono = (function () {
     "longDateFormat": "DD‏/MM‏/YYYY",
     "shortDateFormat": "DD‏/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Serbia and Montenegro",
     "iso2": "CS",
     "iso3": "SCG",
@@ -1835,7 +1835,7 @@ var Chrono = (function () {
     "longDateFormat": "MM/DD/YYYY",
     "shortDateFormat": "MM/DD"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Sudan",
     "iso2": "SD",
     "iso3": "SDN",
@@ -1907,7 +1907,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "El Salvador",
     "iso2": "SV",
     "iso3": "SLV",
@@ -1943,7 +1943,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Serbia",
     "iso2": "RS",
     "iso3": "SRB",
@@ -1970,7 +1970,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Suriname",
     "iso2": "SR",
     "iso3": "SUR",
@@ -1979,7 +1979,7 @@ var Chrono = (function () {
     "longDateFormat": "DD-MM-YYYY",
     "shortDateFormat": "DD-MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Slovakia",
     "iso2": "SK",
     "iso3": "SVK",
@@ -1988,7 +1988,7 @@ var Chrono = (function () {
     "longDateFormat": "DD. MM. YYYY",
     "shortDateFormat": "DD. MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Slovenia",
     "iso2": "SI",
     "iso3": "SVN",
@@ -1997,7 +1997,7 @@ var Chrono = (function () {
     "longDateFormat": "DD. MM. YYYY",
     "shortDateFormat": "DD. MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Sweden",
     "iso2": "SE",
     "iso3": "SWE",
@@ -2033,7 +2033,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Syria",
     "iso2": "SY",
     "iso3": "SYR",
@@ -2132,7 +2132,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Tunisia",
     "iso2": "TN",
     "iso3": "TUN",
@@ -2141,7 +2141,7 @@ var Chrono = (function () {
     "longDateFormat": "DD‏/MM‏/YYYY",
     "shortDateFormat": "DD‏/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Turkey",
     "iso2": "TR",
     "iso3": "TUR",
@@ -2186,7 +2186,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Ukraine",
     "iso2": "UA",
     "iso3": "UKR",
@@ -2204,7 +2204,7 @@ var Chrono = (function () {
     "longDateFormat": "MM/DD/YYYY",
     "shortDateFormat": "MM/DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Uruguay",
     "iso2": "UY",
     "iso3": "URY",
@@ -2249,7 +2249,7 @@ var Chrono = (function () {
     "longDateFormat": "DD/MM/YYYY",
     "shortDateFormat": "DD/MM"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Venezuela",
     "iso2": "VE",
     "iso3": "VEN",
@@ -2294,7 +2294,7 @@ var Chrono = (function () {
     "longDateFormat": "MM/DD/YYYY",
     "shortDateFormat": "MM/DD"
   }, {
-    "week": 0,
+    "week": 1,
     "name": "Wallis and Futuna",
     "iso2": "WF",
     "iso3": "WLF",
@@ -2321,7 +2321,7 @@ var Chrono = (function () {
     "longDateFormat": "YYYY-MM-DD",
     "shortDateFormat": "MM-DD"
   }, {
-    "week": 0,
+    "week": 6,
     "name": "Yemen",
     "iso2": "YE",
     "iso3": "YEM",
@@ -2358,7 +2358,7 @@ var Chrono = (function () {
     "shortDateFormat": "DD/MM"
   }];
 
-  var count, baseDate, days, months, _formatMethods;
+  var count, baseDate, days, months;
   var functionMap = [['ms', 'milliseconds', 'millisecond'], ['s', 'seconds', 'second'], ['min', 'minutes', 'minute'], ['hr', 'hours', 'hour'], ['day', 'days'], ['wk', 'week', 'weeks'], ['mon', 'month', 'months'], ['qtr', 'quarter', 'quarters'], ['yr', 'year', 'years'], ['decade', 'decades']].reduce(function (mapped, names) {
     var target = names[0];
     var _iteratorNormalCompletion = true;
@@ -2438,7 +2438,8 @@ var Chrono = (function () {
   });
 
   var loadLoc = function loadLoc(loc) {
-    if (loadedLocales[loc] === undefined) {
+    // if (loadedLocales[loc] === undefined) {
+    if (loadedLocales.hasOwnProperty(loc) === false) {
       var base = localeArgMap[loc] !== undefined ? localeArgMap[loc] : {
         longDateFormat: "DD/MM/YYYY",
         shortDateFormat: "DD/MM",
@@ -2639,74 +2640,104 @@ var Chrono = (function () {
   }();
 
   var formatPattern = /\[.*?\]|(\w)\1{0,3}/g;
-  var formatMethods = (_formatMethods = {
+  var formatMethods = {
     d: function d(date) {
       return date.dayOfWeek;
     },
     dd: function dd(date) {
       return date.localeData.dayNarrow[date.dayOfWeek];
+    },
+    ddd: function ddd(date) {
+      return date.localeData.dayShort[date.dayOfWeek];
+    },
+    dddd: function dddd(date) {
+      return date.localeData.dayLong[date.dayOfWeek];
+    },
+    D: function D(date) {
+      return date.date;
+    },
+    DD: function DD(date) {
+      return "0".concat(date.date).slice(-2);
+    },
+    DDD: function DDD(date) {
+      return '';
+    },
+    DDDD: function DDDD(date) {
+      return '';
+    },
+    E: function E(date) {
+      return date.dayOfWeek + 1;
+    },
+    h: function h(date) {
+      return date.hours % 12 || 12;
+    },
+    hh: function hh(date) {
+      return "0".concat(date.hours % 12 || 12).slice(-2);
+    },
+    H: function H(date) {
+      return date.hours;
+    },
+    HH: function HH(date) {
+      return "0".concat(date.hours).slice(-2);
+    },
+    m: function m(date) {
+      return date.minutes;
+    },
+    mm: function mm(date) {
+      return "0".concat(date.minutes).slice(-2);
+    },
+    mmm: function mmm(date) {
+      return "00".concat(date.milliseconds).slice(-3);
+    },
+    M: function M(date) {
+      return date.month + 1;
+    },
+    MM: function MM(date) {
+      return "0".concat(date.month + 1).slice(-2);
+    },
+    MMM: function MMM(date) {
+      return date.localeData.monthShort[date.month];
+    },
+    MMMM: function MMMM(date) {
+      return date.localeData.monthLong[date.month];
+    },
+    MMMMM: function MMMMM(date) {
+      return date.localeData.monthNarrow[date.month];
+    },
+    s: function s(date) {
+      return date.seconds;
+    },
+    ss: function ss(date) {
+      return "0".concat(date.seconds).slice(-2);
+    },
+    t: function t(date) {
+      return date.hours < 12 ? "A" : "P";
+    },
+    tt: function tt(date) {
+      return date.hours < 12 ? "AM" : "PM";
+    },
+    TT: function TT(date) {
+      return date.year < 0 ? "BC" : "AD";
+    },
+    yy: function yy(date) {
+      return "0".concat(date.year).slice(-2);
+    },
+    yyyy: function yyyy(date) {
+      return date.year;
+    },
+    YY: function YY(date) {
+      return "0".concat(date.year).slice(-2);
+    },
+    YYYY: function YYYY(date) {
+      return date.year;
+    },
+    L: function L(date) {
+      return date.format(date.localeData.shortDateFormat);
+    },
+    LL: function LL(date) {
+      return date.format(date.localeData.longDateFormat);
     }
-  }, _defineProperty(_formatMethods, "dd", function dd(date) {
-    return date.localeData.dayShort[date.dayOfWeek];
-  }), _defineProperty(_formatMethods, "dd", function dd(date) {
-    return date.localeData.dayLong[date.dayOfWeek];
-  }), _defineProperty(_formatMethods, "D", function D(date) {
-    return date.date;
-  }), _defineProperty(_formatMethods, "DD", function DD(date) {
-    return "0".concat(date.date).slice(-2);
-  }), _defineProperty(_formatMethods, "DDD", function DDD(date) {
-    return '';
-  }), _defineProperty(_formatMethods, "DDDD", function DDDD(date) {
-    return '';
-  }), _defineProperty(_formatMethods, "E", function E(date) {
-    return date.dayOfWeek + 1;
-  }), _defineProperty(_formatMethods, "h", function h(date) {
-    return date.hours % 12 || 12;
-  }), _defineProperty(_formatMethods, "hh", function hh(date) {
-    return "0".concat(date.hours % 12 || 12).slice(-2);
-  }), _defineProperty(_formatMethods, "H", function H(date) {
-    return date.hours;
-  }), _defineProperty(_formatMethods, "HH", function HH(date) {
-    return "0".concat(date.hours).slice(-2);
-  }), _defineProperty(_formatMethods, "m", function m(date) {
-    return date.minutes;
-  }), _defineProperty(_formatMethods, "mm", function mm(date) {
-    return "0".concat(date.minutes).slice(-2);
-  }), _defineProperty(_formatMethods, "mmm", function mmm(date) {
-    return "00".concat(date.milliseconds).slice(-3);
-  }), _defineProperty(_formatMethods, "M", function M(date) {
-    return date.month + 1;
-  }), _defineProperty(_formatMethods, "MM", function MM(date) {
-    return "0".concat(date.month + 1).slice(-2);
-  }), _defineProperty(_formatMethods, "MMM", function MMM(date) {
-    return date.localeData.monthShort[date.month];
-  }), _defineProperty(_formatMethods, "MMMM", function MMMM(date) {
-    return date.localeData.monthLong[date.month];
-  }), _defineProperty(_formatMethods, "MMMMM", function MMMMM(date) {
-    return date.localeData.monthNarrow[date.month];
-  }), _defineProperty(_formatMethods, "s", function s(date) {
-    return date.seconds;
-  }), _defineProperty(_formatMethods, "ss", function ss(date) {
-    return "0".concat(date.seconds).slice(-2);
-  }), _defineProperty(_formatMethods, "t", function t(date) {
-    return date.hours < 12 ? "A" : "P";
-  }), _defineProperty(_formatMethods, "tt", function tt(date) {
-    return date.hours < 12 ? "AM" : "PM";
-  }), _defineProperty(_formatMethods, "TT", function TT(date) {
-    return date.year < 0 ? "BC" : "AD";
-  }), _defineProperty(_formatMethods, "yy", function yy(date) {
-    return "0".concat(date.year).slice(-2);
-  }), _defineProperty(_formatMethods, "yyyy", function yyyy(date) {
-    return date.year;
-  }), _defineProperty(_formatMethods, "YY", function YY(date) {
-    return "0".concat(date.year).slice(-2);
-  }), _defineProperty(_formatMethods, "YYYY", function YYYY(date) {
-    return date.year;
-  }), _defineProperty(_formatMethods, "L", function L(date) {
-    return date.format(date.localeData.shortDateFormat);
-  }), _defineProperty(_formatMethods, "LL", function LL(date) {
-    return date.format(date.localeData.longDateFormat);
-  }), _formatMethods);
+  };
   var ChronoProto = {
     get milliseconds() {
       return this.getMilliseconds();
@@ -2874,13 +2905,13 @@ var Chrono = (function () {
             _ref$day = _ref.day,
             day = _ref$day === void 0 ? src.getDate() - 1 : _ref$day,
             _ref$hour = _ref.hour,
-            hour = _ref$hour === void 0 ? src.getHours() : _ref$hour,
+            hour = _ref$hour === void 0 ? 0 : _ref$hour,
             _ref$minute = _ref.minute,
-            minute = _ref$minute === void 0 ? src.getMinutes() : _ref$minute,
+            minute = _ref$minute === void 0 ? 0 : _ref$minute,
             _ref$second = _ref.second,
-            second = _ref$second === void 0 ? src.getSeconds() : _ref$second,
+            second = _ref$second === void 0 ? 0 : _ref$second,
             _ref$millisecond = _ref.millisecond,
-            millisecond = _ref$millisecond === void 0 ? src.getMilliseconds() : _ref$millisecond;
+            millisecond = _ref$millisecond === void 0 ? 0 : _ref$millisecond;
 
         return new Date(year, month, day + 1, hour, minute, second, millisecond);
       }
@@ -2966,6 +2997,321 @@ var Chrono = (function () {
 
   Chrono.sortDesc = function (first, second) {
     return -Chrono.sortAsc(first, second);
+  };
+
+  var isNum = function isNum(i) {
+    return i >= 0x30 && i <= 0x39 ? 1 : -1;
+  };
+
+  var isNumO = function isNumO(i) {
+    return i >= 0x30 && i <= 0x39 ? 1 : 0;
+  };
+
+  var letter = function letter(l) {
+    return function (i) {
+      return l === i ? 1 : -1;
+    };
+  };
+
+  var letterChoice = function letterChoice() {
+    for (var _len4 = arguments.length, choices = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+      choices[_key4] = arguments[_key4];
+    }
+
+    choices = choices.map(function (l) {
+      return l.charCodeAt(0);
+    });
+    return function (i) {
+      return choices.indexOf(i) !== -1 ? 1 : -1;
+    };
+  };
+
+
+  var consumeTokens = function consumeTokens(toks, str, index) {
+    var i = 0;
+    var t = 0;
+
+    while (i < toks.length) {
+      var tok = toks[i];
+      var res = tok(str.charCodeAt(index + t)); // const res = tok(str, index + t);
+
+      if (res === -1) {
+        return null;
+      }
+
+      t += res;
+      i += 1;
+    }
+
+    return t;
+  };
+
+  var parseMethods = {
+    D: {
+      match: [isNum, isNumO],
+      value: function value(match) {
+        return parseInt(match) - 1;
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 31;
+      },
+      process: function process(d, value) {
+        return d.day = value;
+      }
+    },
+    DD: {
+      match: [isNum, isNum],
+      value: function value(match) {
+        return parseInt(match) - 1;
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 31;
+      },
+      process: function process(d, value) {
+        return d.day = value;
+      }
+    },
+    h: {
+      match: [isNum, isNumO],
+      value: function value(match) {
+        return parseInt(match);
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 24;
+      },
+      process: function process(d, value) {
+        return d.hour = value;
+      }
+    },
+    hh: {
+      match: [isNum, isNum],
+      value: function value(match) {
+        return parseInt(match);
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 24;
+      },
+      process: function process(d, value) {
+        return d.hour = value;
+      }
+    },
+    m: {
+      match: [isNum, isNumO],
+      value: function value(match) {
+        return parseInt(match);
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 59;
+      },
+      process: function process(d, value) {
+        return d.minute = value;
+      }
+    },
+    mm: {
+      match: [isNum, isNum],
+      value: function value(match) {
+        return parseInt(match);
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 59;
+      },
+      process: function process(d, value) {
+        return d.minute = value;
+      }
+    },
+    mmm: {
+      match: [isNum, isNum, isNum],
+      value: function value(match) {
+        return parseInt(match);
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 999;
+      },
+      process: function process(d, value) {
+        return d.millisecond = value;
+      }
+    },
+    M: {
+      match: [isNum, isNumO],
+      value: function value(match) {
+        return parseInt(match) - 1;
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 11;
+      },
+      process: function process(d, value) {
+        return d.month = value;
+      }
+    },
+    MM: {
+      match: [isNum, isNum],
+      value: function value(match) {
+        return parseInt(match) - 1;
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 11;
+      },
+      process: function process(d, value) {
+        return d.month = value;
+      }
+    },
+    s: {
+      match: [isNum, isNumO],
+      value: function value(match) {
+        return parseInt(match);
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 59;
+      },
+      process: function process(d, value) {
+        return d.second = value;
+      }
+    },
+    ss: {
+      match: [isNum, isNum],
+      value: function value(match) {
+        return parseInt(match);
+      },
+      check: function check(value) {
+        return value >= 0 && value <= 59;
+      },
+      process: function process(d, value) {
+        return d.second = value;
+      }
+    },
+    t: {
+      match: [letterChoice("A", "P", "a", "p")],
+      value: function value(i) {
+        return i;
+      },
+      check: function check() {
+        return true;
+      },
+      process: function process(d, value) {
+        if (value.toLowerCase() === "p") {
+          d.hour += 12;
+        }
+      }
+    },
+    tt: {
+      match: [letterChoice("A", "P", "a", "p"), letterChoice("M", "m")],
+      value: function value(i) {
+        return i;
+      },
+      check: function check() {
+        return true;
+      },
+      process: function process(d, value) {
+        if (value.toLowerCase() === "pm") {
+          d.hour += 12;
+        }
+      }
+    },
+    yy: {
+      match: [isNum, isNum],
+      value: function value(match) {
+        return 1900 + parseInt(match);
+      },
+      check: function check() {
+        return true;
+      },
+      process: function process(d, value) {
+        return d.year = value;
+      }
+    },
+    yyyy: {
+      match: [isNum, isNum, isNum, isNum],
+      value: function value(match) {
+        return parseInt(match);
+      },
+      check: function check() {
+        return true;
+      },
+      process: function process(d, value) {
+        return d.year = value;
+      }
+    }
+  };
+  parseMethods.H = parseMethods.h;
+  parseMethods.HH = parseMethods.hh;
+  parseMethods.YY = parseMethods.yy;
+  parseMethods.YYYY = parseMethods.yyyy;
+
+  var defaultParseMethod = function defaultParseMethod(ch) {
+    return {
+      match: [letter(ch)],
+      process: function process() {},
+      check: function check() {
+        return true;
+      },
+      value: function value(i) {
+        return i;
+      }
+    };
+  }; // const defaultParseMethod = {
+  //     match: [any],
+  //     process: () => {}
+  // };
+
+
+  var parseMethodRegex = new RegExp("(".concat(Object.keys(parseMethods).sort(function (a, b) {
+    return b.length - a.length;
+  }).join("|"), "|.)"), 'g');
+
+  Chrono.parse = function (dateString) {
+    var _locale3;
+
+    var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var locale = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+    if (format === null) {
+      return Chrono(Date.parse(dateString));
+    }
+
+    var parseLocale = locale;
+
+    if (parseLocale === null) {
+      parseLocale = Chrono.defaultLocale;
+    }
+
+    parseLocale = parseLocale.toLowerCase();
+
+    if (format === null) {
+      return Chrono(Date.parse(dateString));
+    }
+
+    var _loadLoc = loadLoc(parseLocale),
+        longDateFormat = _loadLoc.longDateFormat,
+        shortDateFormat = _loadLoc.shortDateFormat;
+
+    format = format.replace(/LL/g, longDateFormat);
+    format = format.replace(/L/g, shortDateFormat);
+    var tokens = format.match(parseMethodRegex);
+    var parseResult = {};
+    var i = 0;
+    var j = 0;
+
+    while (i < tokens.length) {
+      var _parseMethods$token;
+
+      var token = tokens[i];
+      var method = (_parseMethods$token = parseMethods[token]) !== null && _parseMethods$token !== void 0 ? _parseMethods$token : defaultParseMethod(token);
+      var t = consumeTokens(method.match, dateString, j);
+      var match = dateString.slice(j, j + t);
+      var value = method.value(match);
+
+      if (t === null || method.check(value) === false) {
+        var _locale2;
+
+        return Chrono(new Date(NaN), (_locale2 = locale) !== null && _locale2 !== void 0 ? _locale2 : lowercaseDefaultLocale);
+      }
+
+      method.process(parseResult, value);
+      j += match.length;
+      i += 1;
+    }
+
+    return Chrono(parseResult, (_locale3 = locale) !== null && _locale3 !== void 0 ? _locale3 : lowercaseDefaultLocale);
   };
 
   return Chrono;

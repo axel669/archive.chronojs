@@ -1,6 +1,6 @@
 [
     {
-        "week": 0,
+        "week": 1,
         "name": "Aruba",
         "iso2": "AW",
         "iso3": "ABW",
@@ -16,7 +16,7 @@
         "locale": "fa-AF"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Angola",
         "iso2": "AO",
         "iso3": "AGO",
@@ -40,7 +40,7 @@
         "locale": "sv-AX"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Albania",
         "iso2": "AL",
         "iso3": "ALB",
@@ -64,7 +64,7 @@
         "locale": "nl-AN"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "United Arab Emirates",
         "iso2": "AE",
         "iso3": "ARE",
@@ -72,7 +72,7 @@
         "locale": "ar-AE"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Argentina",
         "iso2": "AR",
         "iso3": "ARG",
@@ -128,7 +128,7 @@
         "locale": "en-AU"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Austria",
         "iso2": "AT",
         "iso3": "AUT",
@@ -152,7 +152,7 @@
         "locale": "fr-BI"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Belgium",
         "iso2": "BE",
         "iso3": "BEL",
@@ -200,7 +200,7 @@
         "locale": "bg-BG"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Bahrain",
         "iso2": "BH",
         "iso3": "BHR",
@@ -256,7 +256,7 @@
         "locale": "en-BM"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Bolivia",
         "iso2": "BO",
         "iso3": "BOL",
@@ -336,7 +336,7 @@
         "locale": "ms-CC"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Switzerland",
         "iso2": "CH",
         "iso3": "CHE",
@@ -344,7 +344,7 @@
         "locale": "de-CH"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Chile",
         "iso2": "CL",
         "iso3": "CHL",
@@ -400,7 +400,7 @@
         "locale": "en-CK"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Colombia",
         "iso2": "CO",
         "iso3": "COL",
@@ -408,7 +408,7 @@
         "locale": "es-CO"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Comoros",
         "iso2": "KM",
         "iso3": "COM",
@@ -416,7 +416,7 @@
         "locale": "ar-KM"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Cape Verde",
         "iso2": "CV",
         "iso3": "CPV",
@@ -424,7 +424,7 @@
         "locale": "pt-CV"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Costa Rica",
         "iso2": "CR",
         "iso3": "CRI",
@@ -432,7 +432,7 @@
         "locale": "es-CR"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Cuba",
         "iso2": "CU",
         "iso3": "CUB",
@@ -480,7 +480,7 @@
         "locale": "cs-CZ"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Germany",
         "iso2": "DE",
         "iso3": "DEU",
@@ -496,7 +496,7 @@
         "locale": "fr-DJ"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Dominica",
         "iso2": "DM",
         "iso3": "DMA",
@@ -512,7 +512,7 @@
         "locale": "da-DK"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Dominican Republic",
         "iso2": "DO",
         "iso3": "DOM",
@@ -520,7 +520,7 @@
         "locale": "es-DO"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Algeria",
         "iso2": "DZ",
         "iso3": "DZA",
@@ -528,7 +528,7 @@
         "locale": "ar-DZ"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Ecuador",
         "iso2": "EC",
         "iso3": "ECU",
@@ -568,7 +568,7 @@
         "locale": "es-ES"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Estonia",
         "iso2": "EE",
         "iso3": "EST",
@@ -584,7 +584,7 @@
         "locale": "am-ET"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Finland",
         "iso2": "FI",
         "iso3": "FIN",
@@ -608,7 +608,7 @@
         "locale": "en-FK"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "France",
         "iso2": "FR",
         "iso3": "FRA",
@@ -640,7 +640,7 @@
         "locale": "fr-GA"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "United Kingdom",
         "iso2": "GB",
         "iso3": "GBR",
@@ -720,7 +720,7 @@
         "locale": "es-GQ"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Greece",
         "iso2": "GR",
         "iso3": "GRC",
@@ -744,7 +744,7 @@
         "locale": "kl-GL"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Guatemala",
         "iso2": "GT",
         "iso3": "GTM",
@@ -792,7 +792,7 @@
         "locale": "en-US"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Honduras",
         "iso2": "HN",
         "iso3": "HND",
@@ -808,7 +808,7 @@
         "locale": "hr-HR"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Haiti",
         "iso2": "HT",
         "iso3": "HTI",
@@ -816,7 +816,7 @@
         "locale": "ht-HT"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Hungary",
         "iso2": "HU",
         "iso3": "HUN",
@@ -856,7 +856,7 @@
         "locale": "en-IO"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Ireland",
         "iso2": "IE",
         "iso3": "IRL",
@@ -880,7 +880,7 @@
         "locale": "ar-IQ"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Iceland",
         "iso2": "IS",
         "iso3": "ISL",
@@ -896,7 +896,7 @@
         "locale": "he-IL"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Italy",
         "iso2": "IT",
         "iso3": "ITA",
@@ -920,7 +920,7 @@
         "locale": "en-JE"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Jordan",
         "iso2": "JO",
         "iso3": "JOR",
@@ -992,7 +992,7 @@
         "locale": "ko-KR"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Kuwait",
         "iso2": "KW",
         "iso3": "KWT",
@@ -1008,7 +1008,7 @@
         "locale": "lo-LA"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Lebanon",
         "iso2": "LB",
         "iso3": "LBN",
@@ -1024,7 +1024,7 @@
         "locale": "en-LR"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Libya",
         "iso2": "LY",
         "iso3": "LBY",
@@ -1064,7 +1064,7 @@
         "locale": "en-LS"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Lithuania",
         "iso2": "LT",
         "iso3": "LTU",
@@ -1072,7 +1072,7 @@
         "locale": "lt-LT"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Luxembourg",
         "iso2": "LU",
         "iso3": "LUX",
@@ -1104,7 +1104,7 @@
         "locale": "fr-MF"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Morocco",
         "iso2": "MA",
         "iso3": "MAR",
@@ -1112,7 +1112,7 @@
         "locale": "ar-MA"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Monaco",
         "iso2": "MC",
         "iso3": "MCO",
@@ -1120,7 +1120,7 @@
         "locale": "fr-MC"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Moldova",
         "iso2": "MD",
         "iso3": "MDA",
@@ -1144,7 +1144,7 @@
         "locale": "dv-MV"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Mexico",
         "iso2": "MX",
         "iso3": "MEX",
@@ -1192,7 +1192,7 @@
         "locale": "my-MM"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Montenegro",
         "iso2": "ME",
         "iso3": "MNE",
@@ -1216,7 +1216,7 @@
         "locale": "fil-MP"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Mozambique",
         "iso2": "MZ",
         "iso3": "MOZ",
@@ -1224,7 +1224,7 @@
         "locale": "pt-MZ"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Mauritania",
         "iso2": "MR",
         "iso3": "MRT",
@@ -1320,7 +1320,7 @@
         "locale": "en-NG"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Nicaragua",
         "iso2": "NI",
         "iso3": "NIC",
@@ -1336,7 +1336,7 @@
         "locale": "niu-NU"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Netherlands",
         "iso2": "NL",
         "iso3": "NLD",
@@ -1344,7 +1344,7 @@
         "locale": "nl-NL"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Norway",
         "iso2": "NO",
         "iso3": "NOR",
@@ -1376,7 +1376,7 @@
         "locale": "en-NZ"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Oman",
         "iso2": "OM",
         "iso3": "OMN",
@@ -1392,7 +1392,7 @@
         "locale": "ur-PK"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Panama",
         "iso2": "PA",
         "iso3": "PAN",
@@ -1408,7 +1408,7 @@
         "locale": "en-PN"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Peru",
         "iso2": "PE",
         "iso3": "PER",
@@ -1440,7 +1440,7 @@
         "locale": "en-PG"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Poland",
         "iso2": "PL",
         "iso3": "POL",
@@ -1448,7 +1448,7 @@
         "locale": "pl-PL"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Puerto Rico",
         "iso2": "PR",
         "iso3": "PRI",
@@ -1464,7 +1464,7 @@
         "locale": "ko-KP"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Portugal",
         "iso2": "PT",
         "iso3": "PRT",
@@ -1472,7 +1472,7 @@
         "locale": "pt-PT"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Paraguay",
         "iso2": "PY",
         "iso3": "PRY",
@@ -1496,7 +1496,7 @@
         "locale": "fr-PF"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Qatar",
         "iso2": "QA",
         "iso3": "QAT",
@@ -1512,7 +1512,7 @@
         "locale": "fr-RE"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Romania",
         "iso2": "RO",
         "iso3": "ROU",
@@ -1520,7 +1520,7 @@
         "locale": "ro-RO"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Russia",
         "iso2": "RU",
         "iso3": "RUS",
@@ -1536,7 +1536,7 @@
         "locale": "rw-RW"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Saudi Arabia",
         "iso2": "SA",
         "iso3": "SAU",
@@ -1544,7 +1544,7 @@
         "locale": "ar-SA"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Serbia and Montenegro",
         "iso2": "CS",
         "iso3": "SCG",
@@ -1552,7 +1552,7 @@
         "locale": "cu-CS"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Sudan",
         "iso2": "SD",
         "iso3": "SDN",
@@ -1616,7 +1616,7 @@
         "locale": "en-SL"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "El Salvador",
         "iso2": "SV",
         "iso3": "SLV",
@@ -1648,7 +1648,7 @@
         "locale": "fr-PM"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Serbia",
         "iso2": "RS",
         "iso3": "SRB",
@@ -1672,7 +1672,7 @@
         "locale": "pt-ST"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Suriname",
         "iso2": "SR",
         "iso3": "SUR",
@@ -1680,7 +1680,7 @@
         "locale": "nl-SR"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Slovakia",
         "iso2": "SK",
         "iso3": "SVK",
@@ -1688,7 +1688,7 @@
         "locale": "sk-SK"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Slovenia",
         "iso2": "SI",
         "iso3": "SVN",
@@ -1696,7 +1696,7 @@
         "locale": "sl-SI"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Sweden",
         "iso2": "SE",
         "iso3": "SWE",
@@ -1728,7 +1728,7 @@
         "locale": "en-SC"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Syria",
         "iso2": "SY",
         "iso3": "SYR",
@@ -1816,7 +1816,7 @@
         "locale": "en-TT"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Tunisia",
         "iso2": "TN",
         "iso3": "TUN",
@@ -1824,7 +1824,7 @@
         "locale": "ar-TN"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Turkey",
         "iso2": "TR",
         "iso3": "TUR",
@@ -1864,7 +1864,7 @@
         "locale": "en-UG"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Ukraine",
         "iso2": "UA",
         "iso3": "UKR",
@@ -1880,7 +1880,7 @@
         "locale": "en-UM"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Uruguay",
         "iso2": "UY",
         "iso3": "URY",
@@ -1920,7 +1920,7 @@
         "locale": "en-VC"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Venezuela",
         "iso2": "VE",
         "iso3": "VEN",
@@ -1960,7 +1960,7 @@
         "locale": "bi-VU"
     },
     {
-        "week": 0,
+        "week": 1,
         "name": "Wallis and Futuna",
         "iso2": "WF",
         "iso3": "WLF",
@@ -1984,7 +1984,7 @@
         "locale": "sq-XK"
     },
     {
-        "week": 0,
+        "week": 6,
         "name": "Yemen",
         "iso2": "YE",
         "iso3": "YEM",
