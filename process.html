@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Process</title>
+        <script>
+        (async () => {
+            const check = [
+                "Argentina","Bolivia","Brazil","Chile","Colombia","Costa Rica","Cuba","Dominican Republic","Ecuador","El Salvador","France","Guatemala","Haiti","Honduras","Italy","Mexico","Nicaragua","Panama","Paraguay","Peru","Spain","United Kingdom","Uruguay","and Venezuela"
+            ];
+
+            const res = await fetch("country-info2.json");
+            const data = await res.json();
+
+            window.raw = data;
+            window.lookup = data.reduce(
+                (l, c) => {
+                    l[c.iso3] = c;
+                    return l;
+                },
+                {}
+            );
+            const count = (n) => new Array(n).fill(0).map((a, b) => b);
+
+            // console.log(data);
+            const getOrder = info => info
+                .filter(
+                    part => ['day', 'month', 'year'].indexOf(part.type) !== -1
+                )
+                .map(
+                    part => part.type
+                );
+            const getLiteral = info => info.find(part => part.type === 'literal').value;
+            const days = count(7).map(i => {const t = new Date(); t.setDate(t.getDate() + i); return t;});
+            const months = count(12).map(m => new Date(new Date().setMonth(m)));
+            const now = new Date();
+            for (const c of data) {
+                const full = Intl.DateTimeFormat(c.locale).formatToParts(now);
+                // const short = Intl.DateTimeFormat(c.locale).formatToParts(now, {day: 'numeric', month: 'numeric'});
+                const fullOrder = getOrder(full);
+                const shortOrder = fullOrder.filter(s => s !== 'year');
+                const literal = getLiteral(full);
+
+                c.longDateFormat = fullOrder.join(literal).replace("day", "DD").replace("month", "MM").replace("year", "YYYY");
+                c.shortDateFormat = shortOrder.join(literal).replace("day", "DD").replace("month", "MM");
+                // c.dayLong = days.map(d => d.toLocaleString(c.locale, {weekday: 'long'}));
+                // c.dayShort = days.map(d => d.toLocaleString(c.locale, {weekday: 'short'}));
+                // c.dayNarrow = days.map(d => d.toLocaleString(c.locale, {weekday: 'narrow'}));
+                // c.monthLong = months.map(d => d.toLocaleString(c.locale, {month: 'long'}));
+                // c.monthShort = months.map(d => d.toLocaleString(c.locale, {month: 'short'}));
+                // c.monthNarrow = months.map(d => d.toLocaleString(c.locale, {month: 'narrow'}));
+                // break;
+                // if (check.indexOf(c.name) !== -1 || c.iso3 === "DEU") {
+                //     console.log(c.name, fullOrder.join(literal), shortOrder.join(literal));
+                // }
+            }
+            // console.log('done');
+            // console.log(data[0]);
+            // console.log(JSON.stringify(data, null, '    '));
+            console.log(JSON.stringify(data));
+        })();
+        </script>
+    </head>
+    <body></body>
+</html>

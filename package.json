@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "babel source\\chrono.es6.js -o index.js",
+    "build": "rollup -c",
     "copy": "copy source\\chrono.es6.js es6\\index.js",
     "minify": "uglifyjs index.js -o min\\index.js",
     "release": "run-s build copy minify",

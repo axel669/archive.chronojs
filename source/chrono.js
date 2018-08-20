@@ -1,17 +1,5 @@
-import countryInfo from './country-info.js';
+import country from './countries-min.js';
 
-// const aliasMethods = [
-//     ['ms', ['milliseconds', 'millisecond']],
-//     ['s', ['seconds', 'second']],
-//     ['min', ['minutes', 'minute']],
-//     ['hr', ['hours', 'hour']],
-//     ['day', ['days']],
-//     ['wk', ['weeks', 'week']],
-//     ['mon', ['months', 'month']],
-//     ['qtr', ['quarter', 'quaters']],
-//     ['yr', ['years', 'year']],
-//     ['decade', ['decades']]
-// ];
 const functionMap = [
     ['ms', 'milliseconds', 'millisecond'],
     ['s', 'seconds', 'second'],
@@ -34,20 +22,56 @@ const functionMap = [
     {}
 );
 
-// export {_alias, countries};
-// // export const _a = _alias;
-// // export const countries = countryInfo;
-//
-// const alias = (source, aliases) => aliases.forEach(
-//     (aliasInfo) => {
-//         const base = aliasInfo[0];
-//         const aliasList = aliasInfo[1];
-//         for (const alias in aliasList) {
-//             source[alias] = source[base];
-//         }
-//         // aliasList.forEach(alias => source[alias] = source[base]);
-//     }
-// );
+const localeArgMap = country.reduce(
+    (map, country) => {
+        map[country.iso2.toLowerCase()] = country;
+        map[country.iso3.toLowerCase()] = country;
+        map[country.locale.toLowerCase()] = country;
+        return map;
+    },
+    {}
+);
+const loadedLocales = {};
+const genLocaleData = do {
+    const count = n => new Array(n).fill(0).map((a, b) => b);
+    const baseDate = new Date(1971, 2, 14)
+    const days = count(7).map(
+        day => new Date(new Date(baseDate).setDate(14 + day))
+    );
+    const months = count(12).map(
+        month => new Date(new Date(baseDate).setMonth(month))
+    );
+
+    (locale) => ({
+        dayLong: days.map(d => d.toLocaleString(locale, {weekday: 'long'})),
+        dayShort: days.map(d => d.toLocaleString(locale, {weekday: 'short'})),
+        dayNarrow: days.map(d => d.toLocaleString(locale, {weekday: 'narrow'})),
+        monthLong: months.map(m => m.toLocaleString(locale, {month: 'long'})),
+        monthShort: months.map(m => m.toLocaleString(locale, {month: 'short'})),
+        monthNarrow: months.map(m => m.toLocaleString(locale, {month: 'narrow'}))
+    });
+};
+const loadLoc = loc => {
+    if (loadedLocales[loc] === undefined) {
+        const base = do {
+            if (localeArgMap[loc] !== undefined) {
+                localeArgMap[loc];
+            }
+            else {
+                ({
+                    longDateFormat: "DD/MM/YYYY",
+                    shortDateFormat: "DD/MM",
+                    locale: loc,
+                    week: 0
+                });
+            }
+        }
+
+        loadedLocales[loc] = {...base, ...genLocaleData(base.locale)};
+    }
+
+    return loadedLocales[loc];
+};
 
 const add_ms = (date, ms) => new Date(date.getTime() + ms);
 const ms_in = {
@@ -57,21 +81,19 @@ const ms_in = {
     day: 1000 * 60 * 60 * 24,
     week: 1000 * 60 * 60 * 24 * 7
 };
-const shift = do {
+const shift = (() => {
     const ms = (date, amount) =>
         date.setTime(date.time + amount);
     const s = (date, amount) => ms(date, amount * ms_in.second);
-        // date.setTime(date.time + amount * ms_in.second);
     const min = (date, amount) => ms(date, amount * ms_in.minute);
     const hr = (date, amount) => ms(date, amount * ms_in.hour);
-        // date.setTime(date.time + amount * ms_in.hour);
     const day = (date, amount) =>
         date.setDate(date.date + amount);
     const wk = (date, amonut) => day(date, amount * 7);
     const mon = (date, amount) => {
         const expected = (date.month + amount) % 12;
         date.setMonth(date.getMonth() + amount);
-        if (date.month !== target) {
+        if (date.month !== expected) {
             date.setDate(0);
         }
     }
@@ -79,126 +101,84 @@ const shift = do {
     const yr = (date, amount) => mon(date, amount * 12);
     const decade = (date, amount) => mon(date, amount * 120);
 
-    {ms, s, min, hr, day, wk, mon, qtr, yr, decade};
-};
-// const shiftDate = {
-//     ms(date, amount) {
-//         date.setTime(date.time + amount);
-//     },
-//     s(date, amount) {
-//         date.setTime(date.time + amount * ms_in.second);
-//     },
-//     min(date, amount) {
-//         date.setTime(date.time + amount * ms_in.minute);
-//     },
-//     hr(date, amount) {
-//         date.setTime(date.time + amount * ms_in.hour);
-//     },
-//     day(date, amount) {
-//         date.setDate(date.date + amount);
-//     },
-//     wk(date, amount) {
-//         date.setDate(date.date + amount * 7);
-//     },
-//     mon(date, amount) {
-//         const start = date.month;
-//         const target = (start + amount) % 12;
-//         date.setMonth(date.month + amount);
-//         if (date.month !== target) {
-//             date.setDate(0);
-//         }
-//     },
-//     yr(date, amount) {
-//         shiftDate.mon(date, amount * 12);
-//     }
-// };
-// alias(
-//     shiftDate,
-//     aliasMethods
-// );
+    return {ms, s, min, hr, day, wk, mon, qtr, yr, decade};
+})();
 
+const start = (() => {
+    const s = date => date.setMilliseconds(0);
+    const min = date => date.setSeconds(0, 0);
+    const hr = date => date.setMinutes(0, 0, 0);
+    const day = date => date.setHours(0, 0, 0, 0);
+    const wk = date => {
+        const _w = date.localeData.week;
+        const _n = date.dayOfWeek;
+        let offset = _w - _n;
+        if (offset > 0) {
+            offset -= 7;
+        }
 
-const startMethods = {
-    s(date) {
-        date.setMilliseconds(0);
-    },
-    min(date) {
-        date.setSeconds(0, 0);
-    },
-    hr(date) {
-        date.setMinutes(0, 0, 0);
-    },
-    day(date) {
-        date.setHours(0, 0, 0, 0);
-    },
-    week(date) {
-        // n, s -> -(n - s + n < s ? 7 : 0)
-    },
-    mon(date) {
-        startMethods.day(date);
+        date.setDate(date.date + offset);
+        day(date);
+    };
+    const mon = date => {
+        day(date);
         date.setDate(1);
-    },
-    qtr(date) {
-        startMethods.days(date);
-        const month = date.month;
-        date.setMonth(month - month % 4);
-    },
-    yr(date) {
-        startMethods.day(date);
+    };
+    const qtr = date => {
+        const m = date.month;
+        mon(date);
+        date.setMonth(m - (m % 3));
+    };
+    const yr = date => {
+        day(date);
         date.setMonth(0, 1);
-    }
-};
-// alias(
-//     startMethods,
-//     aliasMethods
-// );
+    };
 
-const endMethods = {
-    s(date) {
-        date.setMilliseconds(999);
-    },
-    min(date) {
-        date.setSeconds(59, 999);
-    },
-    hr(date) {
-        date.setMinutes(59, 59, 999);
-    },
-    day(date) {
-        date.setHours(23, 59, 59, 999);
-    },
-    mon(date) {
-        endMethods.day(date);
+    return {s, min, hr, day, wk, mon, qtr, yr};
+})();
+
+const end = (() => {
+    const s = date => date.setMilliseconds(999);
+    const min = date => date.setSecond(59, 999);
+    const hr = date => date.setMinutes(59, 59, 999);
+    const day = date => date.setHours(23, 59, 59, 999);
+    const wk = date => {
+        const _w = date.localeData.week;
+        const _n = date.dayOfWeek;
+        let offset = 6 + (-_n) + _w;
+        if (offset >= 7) {
+            offset -= 7;
+        }
+
+        date.setDate(date.date + offset);
+        day(date);
+    };
+    const mon = date => {
+        day(date);
         date.setDate(1);
         date.setMonth(date.month + 1);
         date.setDate(0);
-    },
-    yr(date) {
-        endMethods.day(date);
+    };
+    const qtr = date => {
+        const m = date.month;
+        date.setDate(1);
+        date.setMonth(m + (2 - (m % 3)));
+        mon(date);
+    };
+    const yr = date => {
+        day(date);
         date.setMonth(11, 31);
-    }
-};
-// alias(
-//     endMethods,
-//     aliasMethods
-// );
+    };
 
-const formatList = {
-    monthShort: ['Jan', 'Feb', 'Mar', 'April', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    month: [
-        'January', 'February', 'March', 'April',
-        'May', 'June', 'July', 'August',
-        'September', 'October', 'November', 'December'
-    ],
-    day: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-    dayShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-};
+    return {s, min, hr, day, wk, mon, qtr, yr};
+})();
 
 const formatPattern = /\[.*?\]|(\w)\1{0,3}/g;
 const formatMethods = {
     d: date => date.dayOfWeek,
-    dd: date => formatList.dayShort[date.dayOfWeek].slice(0, 2),
-    ddd: date => formatList.dayShort[date.dayOfWeek],
-    dddd: date => formarList.day[date.dayOfWeek],
+    dd: date => date.localeData.dayNarrow[date.dayOfWeek],
+    dd: date => date.localeData.dayShort[date.dayOfWeek],
+    dd: date => date.localeData.dayLong[date.dayOfWeek],
     D: date => date.date,
     DD: date => `0${date.date}`.slice(-2),
     DDD: date => '',
@@ -213,15 +193,20 @@ const formatMethods = {
     mmm: date => `00${date.milliseconds}`.slice(-3),
     M: date => date.month + 1,
     MM: date => `0${date.month + 1}`.slice(-2),
-    MMM: date => formatList.monthShort[date.month],
-    MMMM: date => formatList.month[date.month],
+    MMM: date => date.localeData.monthShort[date.month],
+    MMMM: date => date.localeData.monthLong[date.month],
+    MMMMM: date => date.localeData.monthNarrow[date.month],
     s: date => date.seconds,
     ss: date => `0${date.seconds}`.slice(-2),
     t: date => (date.hours < 12) ? "A" : "P",
     tt: date => (date.hours < 12) ? "AM" : "PM",
     TT: date => (date.year < 0) ? "BC" : "AD",
     yy: date => `0${date.year}`.slice(-2),
-    yyyy: date => date.year
+    yyyy: date => date.year,
+    YY: date => `0${date.year}`.slice(-2),
+    YYYY: date => date.year,
+    L: date => date.format(date.localeData.shortDateFormat),
+    LL: date => date.format(date.localeData.longDateFormat)
 };
 
 const ChronoProto = {
@@ -284,19 +269,22 @@ const ChronoProto = {
     },
     shift(amount, unit) {
         const newChrono = new Chrono(this);
-        shiftDate[unit](newChrono, amount);
+        const func = functionMap[unit];
+        shift[func](newChrono, amount);
 
         return newChrono;
     },
     startOf(unit) {
         const newChrono = new Chrono(this);
-        startMethods[unit](newChrono);
+        const func = functionMap[unit];
+        start[func](newChrono);
 
         return newChrono;
     },
     endOf(unit) {
         const newChrono = new Chrono(this);
-        endMethods[unit](newChrono);
+        const func = functionMap[unit];
+        end[func](newChrono);
 
         return newChrono;
     },
@@ -316,7 +304,10 @@ const ChronoProto = {
             time: dif.time
         };
     },
-    format(formatString) {
+    format(formatString = null) {
+        if (formatString === null) {
+            return this.toLocaleString(this.locale);
+        }
         return formatString.replace(
             formatPattern,
             match => {
@@ -329,26 +320,78 @@ const ChronoProto = {
                 return formatMethods[match](this);
             }
         );
+    },
+    changeLoc(loc) {
+        return new Chrono(this, loc);
     }
 };
 Object.setPrototypeOf(ChronoProto, Date.prototype);
 const Chrono = (...args) => {
-    const thing = do {
+    const thing = (() => {
+        if (args.length === 0) {
+            return new Date();
+        }
         if (args[0] instanceof Date) {
-            new Date(args[0]);
+            return new Date(args[0]);
         }
         if (typeof args[0] === 'object') {
-            new Date(0);
+            const src = new Date();
+            const {
+                year = src.getFullYear(),
+                month = src.getMonth(),
+                day = src.getDate() - 1,
+                hour = src.getHours(),
+                minute = src.getMinutes(),
+                second = src.getSeconds(),
+                millisecond = src.getMilliseconds()
+            } = args[0] ?? {};
+            return new Date(year, month, day + 1, hour, minute, second, millisecond);
         }
-        new Date(...args);
-    };
-    // const thing = new Date(...args);
+        return new Date(...args);
+    })();
     Object.setPrototypeOf(thing, ChronoProto);
+    thing.__isChrono = true;
+
+    const localeData = do {
+        if (typeof args[0] === 'object' && args.length > 1) {
+            loadLoc(args[1].toLowerCase());
+        }
+        else {
+            if (args[0]?.__isChrono === true) {
+                args[0].localeData
+            }
+            else {
+                loadLoc(lowercaseDefaultLocale);
+            }
+        }
+    }
+    thing.localeData = localeData;
+    thing.locale = localeData.locale;
 
     return thing;
 };
+let defaultLocale = "en-US";
+let lowercaseDefaultLocale = "en-us";
+Object.defineProperty(
+    Chrono,
+    'defaultLocale',
+    {
+        enumerable: true,
+        configurable: false,
+        get() {
+            return defaultLocale;
+        },
+        set(locale) {
+            locale = locale ?? "en-US";
+            defaultLocale = locale;
+            lowercaseDefaultLocale = locale.toLowerCase();
+        }
+    }
+);
+Chrono.defaultLocale = navigator.language;
 Chrono.min = new Chrono(-8640000000000000);
 Chrono.max = new Chrono(8640000000000000);
+Chrono.locData = (loc) => loadLoc(loc);
 Chrono.trigger = (time, func, ...args) =>
     setTimeout(() => func(...args), time);
 Chrono.interval = (time, func, ...args) => {
@@ -374,11 +417,16 @@ Chrono.sortAsc = (first, second) => {
     return 0;
 };
 Chrono.sortDesc = (first, second) => -Chrono.sortAsc(first, second);
+Chrono.parse = (dateString, locale = null, format = null) => {
+    if (format === null) {
+        return Chrono(Date.parse(dateString));
+    }
+    if (format === "L") {
+        format = loadLoc(locale).shortDateFormat;
+    }
+    if (format === "LL") {
+        format = loadLoc(locale).longDateFormat;
+    }
+};
 
 export default Chrono;
-// if (typeof module !== 'undefined') {
-//     module.exports = Chrono;
-// }
-// else {
-//     window.Chrono = Chrono;
-// }
