@@ -3239,7 +3239,7 @@ var Chrono = (function () {
 
   var defaultParseMethod = function defaultParseMethod(ch) {
     return {
-      match: [letter(ch)],
+      match: [letter(ch.charCodeAt(0))],
       process: function process() {},
       check: function check() {
         return true;

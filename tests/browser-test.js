@@ -44,26 +44,26 @@ const s = format;
 const f = "LL hh:mm:ss";
 const f2 = f.slice(1);
 
-console.log(s);
+// console.log(s);
 
-console.log(Chrono.parse(s, f, 'deu'));
+// console.log(Chrono.parse(s, f, 'deu'));
 
-// console.time('moment');
-// for (let i = 0; i < target; i += 1) {
-//     res.push(moment(s, f2, 'de-de'));
-//     // res.push(moment(format, "L hh:mm:ss"));
-// }
-// console.timeEnd('moment');
-// console.log(res[0].toString());
-// //
-// res = [];
-// console.time('chrono');
-// for (let i = 0; i < target; i += 1) {
-//     // res = Chrono({});
-//     // res.push(Chrono({}));
-//     // res.push(Chrono.parse(format, "LL hh:mm:ss"));
-//     // res.push(Chrono.parse("7", "M"));
-//     res.push(Chrono.parse(s, f, 'deu'));
-// }
-// console.timeEnd('chrono');
-// console.log(res[0]);
+console.time('moment');
+for (let i = 0; i < target; i += 1) {
+    res.push(moment(s, f2, 'de-de'));
+    // res.push(moment(format, "L hh:mm:ss"));
+}
+console.timeEnd('moment');
+console.log(res[0].toString());
+//
+res = [];
+console.time('chrono');
+for (let i = 0; i < target; i += 1) {
+    // res = Chrono({});
+    // res.push(Chrono({}));
+    // res.push(Chrono.parse(format, "LL hh:mm:ss"));
+    // res.push(Chrono.parse("7", "M"));
+    res.push(Chrono.parse(s, f, 'deu'));
+}
+console.timeEnd('chrono');
+console.log(res[0]);

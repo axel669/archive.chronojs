@@ -548,7 +548,7 @@ parseMethods.HH = parseMethods.hh;
 parseMethods.YY = parseMethods.yy;
 parseMethods.YYYY = parseMethods.yyyy;
 const defaultParseMethod = (ch) => ({
-    match: [letter(ch)],
+    match: [letter(ch.charCodeAt(0))],
     process: () => {},
     check: () => true,
     value: i => i
