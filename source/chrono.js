@@ -52,7 +52,6 @@ const genLocaleData = do {
     });
 };
 const loadLoc = loc => {
-    // if (loadedLocales[loc] === undefined) {
     if (loadedLocales.hasOwnProperty(loc) === false) {
         const base = do {
             if (localeArgMap[loc] !== undefined) {
@@ -553,10 +552,6 @@ const defaultParseMethod = (ch) => ({
     check: () => true,
     value: i => i
 });
-// const defaultParseMethod = {
-//     match: [any],
-//     process: () => {}
-// };
 const parseMethodRegex = new RegExp(`(${Object.keys(parseMethods).sort((a, b) => b.length - a.length).join("|")}|.)`, 'g');
 const genParser = format => {
     const tokens = [];

@@ -1,6 +1,6 @@
 {
   "name": "chronojs",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Small library to improve time-manipulation and formatting",
   "main": "index.js",
   "directories": {
@@ -8,10 +8,8 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "copy": "copy source\\chrono.es6.js es6\\index.js",
     "minify": "uglifyjs index.js -o min\\index.js",
-    "release": "run-s build copy minify",
-    "rollup": "rollup -c"
+    "release": "run-s build minify"
   },
   "repository": {
     "type": "git",

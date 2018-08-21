@@ -2438,7 +2438,6 @@ var Chrono = (function () {
   });
 
   var loadLoc = function loadLoc(loc) {
-    // if (loadedLocales[loc] === undefined) {
     if (loadedLocales.hasOwnProperty(loc) === false) {
       var base = localeArgMap[loc] !== undefined ? localeArgMap[loc] : {
         longDateFormat: "DD/MM/YYYY",
@@ -3248,11 +3247,7 @@ var Chrono = (function () {
         return i;
       }
     };
-  }; // const defaultParseMethod = {
-  //     match: [any],
-  //     process: () => {}
-  // };
-
+  };
 
   var parseMethodRegex = new RegExp("(".concat(Object.keys(parseMethods).sort(function (a, b) {
     return b.length - a.length;
