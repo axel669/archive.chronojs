@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "minify": "uglifyjs index.js -o min\\index.js",
+    "minify": "uglifyjs browser\\chrono.js -o browser\\chrono.min.js",
     "release": "run-s build minify"
   },
   "repository": {
