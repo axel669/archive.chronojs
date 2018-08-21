@@ -1,6 +1,6 @@
 {
   "name": "chronojs",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Small library to improve time-manipulation and formatting",
   "main": "index.js",
   "directories": {

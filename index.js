@@ -2734,6 +2734,9 @@ var formatMethods = {
   },
   LL: function LL(date) {
     return date.format(date.localeData.longDateFormat);
+  },
+  LLL: function LLL(date) {
+    return date.format("dddd, MMMM D, YYYY");
   }
 };
 var ChronoProto = {
