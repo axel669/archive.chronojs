@@ -455,8 +455,8 @@ var Chrono = (function () {
     "iso3": "CAN",
     "isoNumber": "124",
     "locale": "en-CA",
-    "longDateFormat": "YYYY-MM-DD",
-    "shortDateFormat": "MM-DD"
+    "longDateFormat": "MM/DD/YYYY",
+    "shortDateFormat": "MM/DD"
   }, {
     "week": 0,
     "name": "Cocos Islands",
@@ -1004,8 +1004,8 @@ var Chrono = (function () {
     "iso3": "HTI",
     "isoNumber": "332",
     "locale": "ht-HT",
-    "longDateFormat": "MM/DD/YYYY",
-    "shortDateFormat": "MM/DD"
+    "longDateFormat": "DD/MM/YYYY",
+    "shortDateFormat": "DD/MM"
   }, {
     "week": 1,
     "name": "Hungary",
@@ -1013,8 +1013,8 @@ var Chrono = (function () {
     "iso3": "HUN",
     "isoNumber": "348",
     "locale": "hu-HU",
-    "longDateFormat": "YYYY. MM. DD",
-    "shortDateFormat": "MM. DD"
+    "longDateFormat": "YYYY.MM.DD",
+    "shortDateFormat": "MM.DD"
   }, {
     "week": 0,
     "name": "Indonesia",
@@ -1661,8 +1661,8 @@ var Chrono = (function () {
     "iso3": "PAN",
     "isoNumber": "591",
     "locale": "es-PA",
-    "longDateFormat": "MM/DD/YYYY",
-    "shortDateFormat": "MM/DD"
+    "longDateFormat": "DD/MM/YYYY",
+    "shortDateFormat": "DD/MM"
   }, {
     "week": 0,
     "name": "Pitcairn",

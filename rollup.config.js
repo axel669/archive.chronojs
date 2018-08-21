@@ -1,3 +1,4 @@
+const json = require('rollup-plugin-json');
 const babel = require('rollup-plugin-babel');
 
 export default {
@@ -13,5 +14,8 @@ export default {
             format: "cjs"
         }
     ],
-    plugins: [babel({exclude: "node_modules/**"})]
+    plugins: [
+        json({indent: '    '}),
+        babel({exclude: "node_modules/**"})
+    ]
 };

@@ -1,4 +1,4 @@
-import country from './countries-min.js';
+import country from './countries.json';
 
 const functionMap = [
     ['ms', 'milliseconds', 'millisecond'],
@@ -206,7 +206,8 @@ const formatMethods = {
     YY: date => `0${date.year}`.slice(-2),
     YYYY: date => date.year,
     L: date => date.format(date.localeData.shortDateFormat),
-    LL: date => date.format(date.localeData.longDateFormat)
+    LL: date => date.format(date.localeData.longDateFormat),
+    LLL: date => date.format("dddd, MMMM D, YYYY")
 };
 
 const ChronoProto = {
