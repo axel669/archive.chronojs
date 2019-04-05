@@ -173,7 +173,7 @@ const end = (() => {
     return {s, min, hr, day, wk, mon, qtr, yr};
 })();
 
-const formatPattern = /\[.*?\]|(\w)\1{0,3}/g;
+const formatPattern = /\[.*?\]|(\w)\1{0,4}/g;
 const formatMethods = {
     d: date => date.dayOfWeek,
     dd: date => date.localeData.dayNarrow[date.dayOfWeek],
@@ -198,6 +198,7 @@ const formatMethods = {
     MMMMM: date => date.localeData.monthNarrow[date.month],
     s: date => date.seconds,
     ss: date => `0${date.seconds}`.slice(-2),
+    sss: date => Math.floor((date - date.startOf('day')) / 1000),
     t: date => (date.hours < 12) ? "A" : "P",
     tt: date => (date.hours < 12) ? "AM" : "PM",
     TT: date => (date.year < 0) ? "BC" : "AD",
@@ -427,14 +428,12 @@ const letterChoice = (...choices) => {
     return i => (choices.indexOf(i) !== -1) ? 1 : -1;
 }
 const any = () => 1;
-// const consume = () => {};
 const consumeTokens = (toks, str, index) => {
     let i = 0;
     let t = 0;
     while (i < toks.length) {
         const tok = toks[i];
         const res = tok(str.charCodeAt(index + t));
-        // const res = tok(str, index + t);
         if (res === -1) {
             return null;
         }

@@ -1,21 +1,27 @@
-const json = require('rollup-plugin-json');
-const babel = require('rollup-plugin-babel');
+import json from "rollup-plugin-json";
+import tea from "@axel669/teascript/rollup";
 
 export default {
-    input: "source/chrono.js",
+    input: "src/chrono.tea",
     output: [
         {
-            file: "browser/chrono.js",
-            format: "iife",
-            name: "Chrono"
+            file: "es6/index.js",
+            format: "es"
         },
         {
             file: "index.js",
             format: "cjs"
+        },
+        {
+            file: "standalone/chrono.js",
+            format: "iife",
+            name: "Chrono"
         }
     ],
     plugins: [
         json({indent: '    '}),
-        babel({exclude: "node_modules/**"})
+        tea({
+            include: "**/*.tea"
+        })
     ]
 };

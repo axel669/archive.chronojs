@@ -1,0 +1,599 @@
+import countryData from "./country-data.json"
+
+let functionMap = [
+    ["ms", "milliseconds", "millisecond"]
+    ["s", "seconds", "second"]
+    ["min", "minutes", "minute"]
+    ["hr", "hours", "hour"]
+    ["day", "days"]
+    ["wk", "week", "weeks"]
+    ["mon", "month", "months"]
+    ["qtr", "quarter", "quarters"]
+    ["yr", "year", "years"]
+    ["decade", "decades"]
+].reduce(
+    (mapped, names) => {
+        let target = names[0]
+        for name in names {
+            mapped[name] = target
+        }
+        return mapped
+    }
+    {}
+)
+
+let localeArgMap = countryData.reduce(
+    (map, country) => {
+        map[country.iso2.toLowerCase()] = country
+        map[country.iso3.toLowerCase()] = country
+        map[country.locale.toLowerCase()] = country
+        return map
+    }
+    {}
+)
+
+let loadLocale = (() => {
+    let localeCache = {}
+    let piSunday = Date*(1971, 2, 14)
+    let days = [0...7: (n) => Date*(Date*(piSunday).setDate(14 + n))]
+    let months = [0...12: (n) => Date*(Date*(piSunday).setMonth(n))]
+
+    let genDayMonthStrings = (locale) => {
+        dayLong: days.map(
+            (d) => d.toLocaleString(locale, {weekday: "long"})
+        )
+        dayShort: days.map(
+            (d) => d.toLocaleString(locale, {weekday: "short"})
+        )
+        dayNarrow: days.map(
+            (d) => d.toLocaleString(locale, {weekday: "narrow"})
+        )
+        monthLong: months.map(
+            (m) => m.toLocaleString(locale, {month: "long"})
+        )
+        monthShort: months.map(
+            (m) => m.toLocaleString(locale, {month: "short"})
+        )
+        monthNarrow: months.map(
+            (m) => m.toLocaleString(locale, {month: "narrow"})
+        )
+    }
+
+    return (locale) => {
+        locale = locale.toLowerCase()
+        if localeCache[locale] == void {
+            let baseLocaleInfo = localeArgMap[locale] ?? {
+                longDateFormat: "DD/MM/YYYY"
+                shortDateFormat: "DD/MM"
+                locale: loc
+                week: 0
+            }
+
+            localeCache[locale] = {
+                ...baseLocaleInfo
+                ...genDayMonthStrings(locale)
+            }
+        }
+
+        return localeCache[locale]
+    }
+})()
+
+let add_ms = (date, ms) => Date*(date.getTime() + ms)
+let ms_in = {
+    second: 1000
+    minute: 1000 * 60
+    hour: 1000 * 60 * 60
+    day: 1000 * 60 * 60 * 24
+    week: 1000 * 60 * 60 * 24 * 7
+}
+let shift = (() => {
+    let ms = (date, amount) =>
+        date.setTime(date.time + amount)
+    let s = (date, amount) => ms(date, amount * ms_in.second)
+    let min = (date, amount) => ms(date, amount * ms_in.minute)
+    let hr = (date, amount) => ms(date, amount * ms_in.hour)
+    let day = (date, amount) =>
+        date.setDate(date.date + amount)
+    let wk = (date, amonut) => day(date, amount * 7)
+    let mon = (date, amount) => {
+        let expected = (date.month + amount) % 12
+        date.setMonth(date.getMonth() + amount)
+        if date.month != expected {
+            date.setDate(0)
+        }
+    }
+    let qtr = (date, amount) => mon(date, amount * 3)
+    let yr = (date, amount) => mon(date, amount * 12)
+    let decade = (date, amount) => mon(date, amount * 120)
+
+    return {ms, s, min, hr, day, wk, mon, qtr, yr, decade}
+})()
+
+let start = (() => {
+    let s = (date) => date.setMilliseconds(0)
+    let min = (date) => date.setSeconds(0, 0)
+    let hr = (date) => date.setMinutes(0, 0, 0)
+    let day = (date) => date.setHours(0, 0, 0, 0)
+    let wk = (date) => {
+        let _w = date.localeData.week
+        let _n = date.dayOfWeek
+        let mut offset = _w - _n
+        if offset > 0 {
+            offset -= 7
+        }
+
+        date.setDate(date.date + offset)
+        day(date)
+    }
+    let mon = (date) => {
+        day(date)
+        date.setDate(1)
+    }
+    let qtr = (date) => {
+        let m = date.month
+        mon(date)
+        date.setMonth(m - (m % 3))
+    }
+    let yr = (date) => {
+        day(date)
+        date.setMonth(0, 1)
+    }
+
+    return {s, min, hr, day, wk, mon, qtr, yr}
+})()
+
+let end = (() => {
+    let s = (date) => date.setMilliseconds(999)
+    let min = (date) => date.setSecond(59, 999)
+    let hr = (date) => date.setMinutes(59, 59, 999)
+    let day = (date) => date.setHours(23, 59, 59, 999)
+    let wk = (date) => {
+        let _w = date.localeData.week
+        let _n = date.dayOfWeek
+        let mut offset = 6 + (-_n) + _w
+        if offset >= 7 {
+            offset -= 7
+        }
+
+        date.setDate(date.date + offset)
+        day(date)
+    }
+    let mon = (date) => {
+        day(date)
+        date.setDate(1)
+        date.setMonth(date.month + 1)
+        date.setDate(0)
+    }
+    let qtr = (date) => {
+        let m = date.month
+        date.setDate(1)
+        date.setMonth(m + (2 - (m % 3)))
+        mon(date)
+    }
+    let yr = (date) => {
+        day(date)
+        date.setMonth(11, 31)
+    }
+
+    return {s, min, hr, day, wk, mon, qtr, yr}
+})()
+
+// const formatPattern = /\[.*?\]|(\w)\1{04}/g
+let formatMethods = {
+    d(date) => date.dayOfWeek
+    dd(date) => date.localeData.dayNarrow[date.dayOfWeek]
+    ddd(date) => date.localeData.dayShort[date.dayOfWeek]
+    dddd(date) => date.localeData.dayLong[date.dayOfWeek]
+    D(date) => date.date
+    DD(date) => `0${date.date}`[-2...]
+    DDD(date) => ""
+    DDDD(date) => ""
+    E(date) => date.dayOfWeek + 1
+    h(date) => ((date.hours % 12) != 0) ? (date.hours % 12) : 12
+    hh(date) => `0${((date.hours % 12) != 0) ? (date.hours % 12) : 12 || 12}`[-2...]
+    H(date) => date.hours
+    HH(date) => `0${date.hours}`[-2...]
+    m(date) => date.minutes
+    mm(date) => `0${date.minutes}`[-2...]
+    mmm(date) => `00${date.milliseconds}`.slice(-3)
+    M(date) => date.month + 1
+    MM(date) => `0${date.month + 1}`[-2...]
+    MMM(date) => date.localeData.monthShort[date.month]
+    MMMM(date) => date.localeData.monthLong[date.month]
+    MMMMM(date) => date.localeData.monthNarrow[date.month]
+    s(date) => date.seconds
+    ss(date) => `0${date.seconds}`[-2...]
+    sss(date) => Math.floor((date - date.startOf("day")) / 1000)
+    t(date) => (date.hours < 12) ? "A" : "P"
+    tt(date) => (date.hours < 12) ? "AM" : "PM"
+    TT(date) => (date.year < 0) ? "BC" : "AD"
+    yy(date) => `0${date.year}`[-2...]
+    yyyy(date) => date.year
+    YY(date) => `0${date.year}`[-2...]
+    YYYY(date) => date.year
+    L(date) => date.format(date.localeData.shortDateFormat)
+    LL(date) => date.format(date.localeData.longDateFormat)
+    LLL(date) => date.format("dddd MMMM D YYYY")
+}
+let formatTypes = Object
+    .keys(formatMethods)
+    .sort()
+    .reverse()
+let formatPattern = RegExp*(`\\[.*?\\]|${formatTypes.join("|")}`, "g")
+
+let defaultLocale = (typeof navigator != "undefined") ? navigator.language : "en-US"
+class Chrono extends Date {
+    static defaultLocale = defaultLocale
+    static min = Chrono*(-8640000000000000)
+    static max = Chrono*(8640000000000000)
+    static trigger = (time, func, ...args) =>
+        setTimeout(() => func(...args), time)
+    static sort = {
+        asc(a, b) => {
+            if a > b {
+                return 1
+            }
+            if a < b {
+                return -1
+            }
+            return 0
+        }
+        desc(a, b) => -Chrono.sort.asc(a, b)
+    }
+
+    constructor(...args) => {
+        switch {
+            case args.length == 0 || args[0] == null {
+                super()
+            }
+            case args[0] instanceof Date {
+                super(args[0])
+            }
+            case typeof args[0] == "object" {
+                let src = Date*()
+                let {
+                    year = src.getFullYear()
+                    month = src.getMonth()
+                    day = src.getDate() - 1
+                    hour = 0
+                    minute = 0
+                    second = 0
+                    millisecond = 0
+                } = args[0]
+
+                super(year, month, day + 1, hour, minute, second, millisecond)
+            }
+            case isNaN(args[0]) == true {
+                super(NaN)
+            }
+            default {
+                super(...args)
+            }
+        }
+        let locale = switch {
+            case typeof args[0] == "object" && args.length > 1 {
+                break args[1]
+            }
+            case args[0] instanceof Chrono {
+                break args[0].locale
+            }
+            default {
+                break Chrono.defaultLocale
+            }
+        }
+
+        Object.defineProperty(
+            @
+            "localeData"
+            {
+                enumerable: true
+                configurable: false
+                get() => loadLocale(locale)
+            }
+        )
+    }
+
+    get locale() => @localeData.locale
+    get milliseconds() => @getMilliseconds()
+    get seconds() => @getSeconds()
+    get minutes() => @getMinutes()
+    get hours() => @getHours()
+    get date() => @getDate()
+    get date0() => @getDate() - 1
+    get dayOfWeek() => @getDay()
+    get month() => @getMonth()
+    get year() => @getFullYear()
+    get utcMilliseconds() => @getUTCMilliseconds()
+    get utcSeconds() => @getUTCSeconds()
+    get utcMinutes() => @getUTCMinutes()
+    get utcHours() => @getUTCHours()
+    get utcDate() => @getUTCDate()
+    get utcDate0() => @getUTCDate() - 1
+    get utcDayOfWeek() => @getUTCDay()
+    get utcMonth() => @getUTCMonth()
+    get utcYear() => @getUTCFullYear()
+    get time() => @getTime()
+
+    shift(amount, unit) => {
+        let newChrono = Chrono*(@)
+        let func = functionMap[unit]
+        shift[func](newChrono, amount)
+
+        return newChrono
+    }
+    startOf(unit) => {
+        let newChrono = Chrono*(@)
+        let func = functionMap[unit]
+        start[func](newChrono)
+
+        return newChrono
+    }
+    endOf(unit) => {
+        let newChrono = Chrono*(@)
+        let func = functionMap[unit]
+        end[func](newChrono)
+
+        return newChrono
+    }
+
+    dif(other) => {
+        let difMS = Math.abs(
+            @time - other.time
+        )
+        let dif = Chrono*(difMS)
+        return {
+            milliseconds: dif.utcMilliseconds
+            seconds: dif.utcSeconds
+            minutes: dif.utcMinutes
+            hours: dif.utcHours
+            days: dif.utcDate0
+            month: dif.utcMonth
+            years: dif.utcYear - 1970
+            dif.time
+        }
+    }
+
+    toLocale(locale) => Chrono*(@, locale)
+
+    format(formatString = null) => {
+        if formatString == null {
+            return @toLocaleString(@locale)
+        }
+        return formatString.replace(
+            formatPattern
+            (match) => {
+                if match.charAt(0) == "[" {
+                    return match[1...-1]
+                }
+                if formatMethods.hasOwnProperty(match) == false {
+                    throw Error*(`"${match}" is not a valid date formatter`)
+                }
+                return formatMethods[match](@)
+            }
+        )
+    }
+}
+
+let isNum = (i) => (i >= 0x30 && i <= 0x39) ? 1 : -1
+let isNumO = (i) => (i >= 0x30 && i <= 0x39) ? 1 : 0
+let letter = (l) => (i) => (l == i) ? 1 : -1
+let letterChoice = (...choices) => {
+    choices = choices.map((l) => l.charCodeAt(0))
+    return (i) => (choices.indexOf(i) != -1) ? 1 : -1
+}
+let any = () => 1
+let consumeTokens = (toks, str, index) => {
+    let mut i = 0
+    let mut t = 0
+    while i < toks.length {
+        let tok = toks[i]
+        let res = tok(str.charCodeAt(index + t))
+        if res == -1 {
+            return null
+        }
+        t += res
+        i += 1
+    }
+    return t
+}
+let parseMethods = {
+    D: {
+        match: [isNum, isNumO]
+        value(match) => parseInt(match) - 1
+        check(value) => value >= 0 && value <= 31
+        process(d, value) => {
+            d.day = value
+        }
+    }
+    DD: {
+        match: [isNum, isNum]
+        value(match) => parseInt(match) - 1
+        check(value) => value >= 0 && value <= 31
+        process(d, value) => {
+            d.day = value
+        }
+    }
+    h: {
+        match: [isNum, isNumO]
+        value(match) => parseInt(match)
+        check(value) => value >= 0 && value <= 24
+        process(d, value) => {
+            d.hour = value
+        }
+    }
+    hh: {
+        match: [isNum, isNum]
+        value(match) => parseInt(match)
+        check(value) => value >= 0 && value <= 24
+        process(d, value) => {
+            d.hour = value
+        }
+    }
+    m: {
+        match: [isNum, isNumO]
+        value(match) => parseInt(match)
+        check(value) => value >= 0 && value <= 59
+        process(d, value) => {
+            d.minute = value
+        }
+    }
+    mm: {
+        match: [isNum, isNum]
+        value(match) => parseInt(match)
+        check(value) => value >= 0 && value <= 59
+        process(d, value) => {
+            d.minute = value
+        }
+    }
+    mmm: {
+        match: [isNum, isNum, isNum]
+        value(match) => parseInt(match)
+        check(value) => value >= 0 && value <= 999
+        process(d, value) => {
+            d.millisecond = value
+        }
+    }
+    M: {
+        match: [isNum, isNumO]
+        value(match) => parseInt(match) - 1
+        check(value) => value >= 0 && value <= 11
+        process(d, value) => {
+            d.month = value
+        }
+    }
+    MM: {
+        match: [isNum, isNum]
+        value(match) => parseInt(match) - 1
+        check(value) => value >= 0 && value <= 11
+        process(d, value) => {
+            d.month = value
+        }
+    }
+    s: {
+        match: [isNum, isNumO]
+        value(match) => parseInt(match)
+        check(value) => value >= 0 && value <= 59
+        process(d, value) => {
+            d.second = value
+        }
+    }
+    ss: {
+        match: [isNum, isNum]
+        value(match) => parseInt(match)
+        check(value) => value >= 0 && value <= 59
+        process(d, value) => {
+            d.second = value
+        }
+    }
+    t: {
+        match: [letterChoice("A", "P", "a", "p")]
+        value(i) => i
+        check: () => true
+        process(d, value) => {
+            if value.toLowerCase() == "p" {
+                d.hour += 12
+            }
+        }
+    }
+    tt: {
+        match: [letterChoice("A", "P", "a", "p"), letterChoice("M", "m")]
+        value(i) => i
+        check: () => true
+        process(d, value) => {
+            if value.toLowerCase() == "pm" {
+                d.hour += 12
+            }
+        }
+    }
+    yy: {
+        match: [isNum, isNum]
+        value(match) => 1900 + parseInt(match)
+        check: () => true
+        process(d, value) => {
+            d.year = value
+        }
+    }
+    yyyy: {
+        match: [isNum, isNum, isNum, isNum]
+        value(match) => parseInt(match)
+        check: () => true
+        process(d, value) => {
+            d.year = value
+        }
+    }
+}
+parseMethods.H = parseMethods.h
+parseMethods.HH = parseMethods.hh
+parseMethods.YY = parseMethods.yy
+parseMethods.YYYY = parseMethods.yyyy
+let defaultParseMethod = (ch) => ({
+    match: [letter(ch.charCodeAt(0))]
+    process: () => {}
+    check: () => true
+    value(i) => i
+})
+let parseKeys = Object
+    .keys(parseMethods)
+    .sort()
+    .reverse()
+let parseMethodRegex = RegExp*(`(${parseKeys.join("|")}|.)`, "g")
+let genParser = (format) => {
+    let tokens = []
+    let newFormat = format.replace(
+        parseMethodRegex
+        (match) => {
+            let method = parseMethods[match]
+            tokens.push(method[1])
+            return method[0]
+        }
+    )
+    let parseRegex = RegExp*(newFormat)
+    return [parseRegex, tokens]
+}
+Chrono.parse = (dateString, format = null, locale = null) => {
+    if format == null {
+        return Chrono*(Date.parse(dateString))
+    }
+
+    let mut parseLocale = locale
+    if parseLocale == null {
+        parseLocale = Chrono.defaultLocale
+    }
+    parseLocale = parseLocale.toLowerCase()
+    if format == null {
+        return Chrono*(Date.parse(dateString))
+    }
+    let {longDateFormat, shortDateFormat} = loadLocale(parseLocale)
+    format = format
+        .replace(/LLL/g, "dddd MMMM D YYYY")
+        .replace(/LL/g, longDateFormat)
+        .replace(/L/g, shortDateFormat)
+
+    let tokens = format.match(parseMethodRegex)
+    let parseResult = {}
+    let mut i = 0
+    let mut j = 0
+    while i < tokens.length {
+        let token = tokens[i]
+        let method = parseMethods[token] ?? defaultParseMethod(token)
+        let t = consumeTokens(method.match, dateString, j)
+        let match = dateString.slice(j, j + t)
+        let value = method.value(match)
+
+        if t == null || method.check(value) == false {
+            return Chrono*(Date*(dateString), locale ?? defaultLocale)
+        }
+
+        method.process(parseResult, value)
+        j += match.length
+        i += 1
+    }
+    return Chrono*(parseResult, locale ?? defaultLocale)
+}
+
+let CreateChrono = (...args) => Chrono*(...args)
+CreateChrono.class = Chrono
+Object.assign(CreateChrono, Chrono)
+
+export default CreateChrono

@@ -1,5 +1,3 @@
-'use strict';
-
 var countryData = [
     {
         week: 1,
@@ -3171,4 +3169,4 @@ const CreateChrono = (...args) => new Chrono(...args);
 CreateChrono.class = Chrono;
 Object.assign(CreateChrono, Chrono);
 
-module.exports = CreateChrono;
+export default CreateChrono;
