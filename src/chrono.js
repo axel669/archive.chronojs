@@ -192,7 +192,6 @@ const API = {
             args[1] -= 1
         }
         const date = new Date(...args)
-        // date.setTime(date.getTime() + defaultTZOffset)
         return Chrono(
             date,
             loadLocale(defaultLocale),
@@ -218,7 +217,6 @@ const API = {
     },
     fromDate: sourceDate => {
         const date = new Date(sourceDate)
-        // date.setTime(date.getTime() + defaultTZOffset)
 
         console.log(date)
 
@@ -229,6 +227,14 @@ const API = {
         )
     },
     fromTimestamp: ts => {
+        const date = new Date()
+        date.setTime(ts)
+
+        return Chrono(
+            date,
+            loadLocale(defaultLocale),
+            defaultTZOffset
+        )
     },
     localeSupported,
 }
@@ -246,7 +252,7 @@ console.log(now.getUTCHours())
 console.log(test.tzOffset)
 
 const offset = test.withTimezoneOffset(0)
-console.log(offset.hour)
+console.log("tz0", offset.hour)
 
 const early = API.local(2020, 1, 1)
 console.log(
