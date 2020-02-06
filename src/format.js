@@ -1,10 +1,10 @@
 const formatMethod = {
     d: (date) => date.dayOfWeek,
-    dd: (date) => date.localeData.dayNarrow[date.dayOfWeek],
-    ddd: (date) => date.localeData.dayShort[date.dayOfWeek],
-    dddd: (date) => date.localeData.dayLong[date.dayOfWeek],
-    D: (date) => date.date,
-    DD: (date) => `0${date.date}`.slice(-2),
+    dd: (date) => date.localeData.weekdayNarrow[date.weekday],
+    ddd: (date) => date.localeData.weekdayShort[date.weekday],
+    dddd: (date) => date.localeData.weekdayLong[date.weekday],
+    D: (date) => date.day,
+    DD: (date) => `0${date.day}`.slice(-2),
     DDD: (date) => "",
     DDDD: (date) => "",
     E: (date) => date.dayOfWeek + 1,
@@ -32,5 +32,31 @@ const formatMethod = {
     YYYY: (date) => date.year,
     L: (date) => date.format(date.localeData.shortDateFormat),
     LL: (date) => date.format(date.localeData.longDateFormat),
-    LLL: (date) => date.format("dddd MMMM D YYYY"),
+    LLL: (date) => date.format("$dddd $MMMM $D $YYYY"),
 }
+
+const formatMethods = Object
+    .keys(formatMethod)
+    .sort()
+    .reverse()
+const formatRegex = new RegExp(
+    `\\$(\\$|${formatMethods.join("|")})`,
+    "g"
+)
+
+const formatDate = (formatString, date) => formatString.replace(
+    formatRegex,
+    (_, format) => {
+        if (format === "$") {
+            return "$"
+        }
+
+        if (formatMethod[format] === undefined) {
+            throw new Error(`No format method defined for '${format}'`)
+        }
+
+        return formatMethod[format](date)
+    }
+)
+
+module.exports = formatDate

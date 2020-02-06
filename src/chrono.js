@@ -1,5 +1,6 @@
 const loadLocale = require("./load-locale.js")
-const format = require("./format.js")
+const formatDate = require("./format.js")
+const {localeSupported} = require("./locale-to-country.js")
 
 const shiftAliasGroups = [
     ["ms", "milliseconds", "millisecond"],
@@ -84,10 +85,11 @@ const calcISOYear = date => {
     return monday.getFullYear()
 }
 
-const Chrono = (date, localeData, tzOffset) => {
-    const localDate = new Date(date.getTime() - tzOffset)
+const Chrono = (localDate, localeData, tzOffset) => {
+    // const localDate = new Date(date.getTime() - tzOffset)
+    const date = new Date(localDate.getTime() + tzOffset)
     const tzMinutes = tzOffset / 1000 / 60
-    return {
+    const self = {
         get localeData() {
             return localeData
         },
@@ -145,7 +147,10 @@ const Chrono = (date, localeData, tzOffset) => {
         ],
 
         toString: () => localDate.toString(),
-        toLocaleString: () => localDate.toLocaleString(localeData.locale),
+        toLocaleString: (options) => localDate.toLocaleString(
+            localeData.locale,
+            options
+        ),
         toUTCString: () => localDate.toUTCString(),
         valueOf: () => localDate.getTime(),
 
@@ -160,12 +165,21 @@ const Chrono = (date, localeData, tzOffset) => {
             date.setTime(date.getTime() + offset)
 
             return Chrono(date, localeData, offset)
-        }
+        },
+
+        format: formatString => formatDate(formatString, self)
     }
+
+    return self
 }
 const defaultLocale = "en-US"
 const defaultTZOffset = -(new Date()).getTimezoneOffset() * 60 * 1000
 
+const dateWithOffset = (offset, ...args) => {
+    const date = new Date(...args)
+    date.setTime(date.getTime() + offset)
+    return date
+}
 const API = {
     local: (...args) => {
         for (const arg of args) {
@@ -178,7 +192,7 @@ const API = {
             args[1] -= 1
         }
         const date = new Date(...args)
-        date.setTime(date.getTime() + defaultTZOffset)
+        // date.setTime(date.getTime() + defaultTZOffset)
         return Chrono(
             date,
             loadLocale(defaultLocale),
@@ -186,10 +200,25 @@ const API = {
         )
     },
     fromObject: (source) => {
+        const {
+            year = 1970,
+            month = 1,
+            day = 1,
+            hour = 1,
+            minute = 1,
+            second = 1,
+            millisecond = 1
+        } = source
+
+        return Chrono(
+            new Date(year, month, day, hour, minute, second, millisecond),
+            loadLocale(defaultLocale),
+            defaultTZOffset
+        )
     },
     fromDate: sourceDate => {
         const date = new Date(sourceDate)
-        date.setTime(date.getTime() + defaultTZOffset)
+        // date.setTime(date.getTime() + defaultTZOffset)
 
         console.log(date)
 
@@ -201,17 +230,14 @@ const API = {
     },
     fromTimestamp: ts => {
     },
+    localeSupported,
 }
 
-// const test = API.local(2020, 2, 1).inLocale("es-ES")
 const now = new Date()
-now.setHours(20)
-// const test = API.local()
-// const test = API.local(2016, 1, 1)
+// now.setHours(20)
 const test = API.fromDate(now)
 console.log(now.toString())
 console.log(test.toString())
-// console.log(test.millisecond)
 console.log(test.isoWeek)
 console.log(test.isoOrdinal)
 console.log(test.isoYear)
@@ -227,15 +253,19 @@ console.log(
     Math.min(now, early),
     Math.min(test, early)
 )
-// console.log(test.localeData)
-// console.log(test.toLocaleString())
-
-// console.log(countryData.length)
-// console.log(shiftAliases)
-
-// console.log(
-//     loadLocale("en-US")
-// )
-// console.log(
-//     loadLocale("es-ES")
-// )
+console.log(
+    test.format("$MM/$DD/$yyyy $$hi"),
+)
+console.log(test.format("$L"))
+console.log(test.format("$LL"))
+console.log(test.inLocale("es-ES").format("$LLL"))
+console.log(
+    test
+        .inLocale("de-DE")
+        .toLocaleString({
+            weekday: "long",
+            month: "long",
+            year: "numeric",
+            day: "numeric",
+        })
+)

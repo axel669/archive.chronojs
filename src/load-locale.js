@@ -1,4 +1,4 @@
-const localToCountry = require("./locale-to-country.js")
+const {localeToCountry} = require("./locale-to-country.js")
 
 const localeCache = {}
 
@@ -46,10 +46,10 @@ const loadLocale = given => {
     const locale = given.toLowerCase()
 
     if (localeCache[locale] === undefined) {
-        const baseInfo = localToCountry[locale] || {
+        const baseInfo = localeToCountry[locale] || {
+            locale,
             longDateFormat: "DD/MM/YYYY",
             shortDateFormat: "DD/MM",
-            locale: loc,
             week: 0,
         }
         baseInfo.longDateFormat = baseInfo.longDateFormat.replace(

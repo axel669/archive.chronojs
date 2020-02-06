@@ -11,5 +11,12 @@ const localeToCountry = countryData.reduce(
     {}
 )
 
+const localeSupported = locale => {
+    return localeToCountry[locale.toLowerCase()] !== undefined
+}
+
 // export default localeToCountry
-module.exports = localeToCountry
+module.exports = {
+    localeToCountry,
+    localeSupported,
+}
