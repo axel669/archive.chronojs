@@ -1,4 +1,5 @@
-const countryData = require("./country-data.json")
+// const countryData = require("./country-data.json")
+import countryData from "./country-data.json"
 
 const localeToCountry = countryData.reduce(
     (mapping, country) => {
@@ -15,8 +16,11 @@ const localeSupported = locale => {
     return localeToCountry[locale.toLowerCase()] !== undefined
 }
 
-// export default localeToCountry
-module.exports = {
+// module.exports = {
+//     localeToCountry,
+//     localeSupported,
+// }
+export {
     localeToCountry,
     localeSupported,
 }

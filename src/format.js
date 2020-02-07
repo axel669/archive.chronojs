@@ -1,3 +1,15 @@
+const getTimezone = (date, format) => {
+    const localeString = date.toLocaleString({
+        timeZoneName: format,
+        hour: "numeric",
+        hour12: false,
+    })
+
+    return localeString.slice(
+        localeString.indexOf(" ") + 1
+    )
+}
+
 const formatMethod = {
     d: (date) => date.dayOfWeek,
     dd: (date) => date.localeData.weekdayNarrow[date.weekday],
@@ -33,6 +45,11 @@ const formatMethod = {
     L: (date) => date.format(date.localeData.shortDateFormat),
     LL: (date) => date.format(date.localeData.longDateFormat),
     LLL: (date) => date.format("$dddd $MMMM $D $YYYY"),
+    z: (date) => getTimezone(date, "short"),
+    Z: (date) => getTimezone(date, "long"),
+    IO: date => date.isoOrdinal,
+    IW: date => date.isoWeek,
+    IY: date => date.isoYear,
 }
 
 const formatMethods = Object
@@ -59,4 +76,5 @@ const formatDate = (formatString, date) => formatString.replace(
     }
 )
 
-module.exports = formatDate
+// module.exports = formatDate
+export default formatDate

@@ -1,8 +1,7 @@
-import json from "rollup-plugin-json";
-import tea from "@axel669/teascript/rollup";
+import json from "rollup-plugin-json"
 
 export default {
-    input: "src/chrono.tea",
+    input: "src/api.js",
     output: [
         {
             file: "es6/index.js",
@@ -20,8 +19,5 @@ export default {
     ],
     plugins: [
         json({indent: '    '}),
-        tea({
-            include: "**/*.tea"
-        })
     ]
 };

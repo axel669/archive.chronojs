@@ -1,4 +1,5 @@
-const {localeToCountry} = require("./locale-to-country.js")
+// const {localeToCountry} = require("./locale-to-country.js")
+import {localeToCountry} from "./locale-to-country.js"
 
 const localeCache = {}
 
@@ -70,5 +71,5 @@ const loadLocale = given => {
     return localeCache[locale]
 }
 
-// export default loadLocale
-module.exports = loadLocale
+// module.exports = loadLocale
+export default loadLocale

@@ -2523,652 +2523,561 @@ var countryData = [
     }
 ];
 
-var range = function(a, b) {
-    for (
-        var c =
-                2 < arguments.length && void 0 !== arguments[2]
-                    ? arguments[2]
-                    : 1,
-            d = [],
-            e = a;
-        (0 < c && e < b) || (0 > c && e > b);
+// const countryData = require("./country-data.json")
 
-    )
-        d.push(e), (e += c);
-    return d;
+const localeToCountry = countryData.reduce(
+    (mapping, country) => {
+        mapping[country.iso2.toLowerCase()] = country;
+        mapping[country.iso3.toLowerCase()] = country;
+        mapping[country.locale.toLowerCase()] = country;
+
+        return mapping
+    },
+    {}
+);
+
+const localeSupported = locale => {
+    return localeToCountry[locale.toLowerCase()] !== undefined
 };
-const functionMap = [
-    ["ms", "milliseconds", "millisecond"],
-    ["s", "seconds", "second"],
-    ["min", "minutes", "minute"],
-    ["hr", "hours", "hour"],
-    ["day", "days"],
-    ["wk", "week", "weeks"],
-    ["mon", "month", "months"],
-    ["qtr", "quarter", "quarters"],
-    ["yr", "year", "years"],
-    ["decade", "decades"]
-].reduce((mapped, names) => {
-    const target = names[0];
-    for (const name of names) {
-        mapped[name] = target;
-    }
-    return mapped;
-}, {});
-const localeArgMap = countryData.reduce((map, country) => {
-    map[country.iso2.toLowerCase()] = country;
-    map[country.iso3.toLowerCase()] = country;
-    map[country.locale.toLowerCase()] = country;
-    return map;
-}, {});
-const loadLocale = (() => {
-    const localeCache = {};
-    const piSunday = new Date(1971, 2, 14);
-    const days = range(0, 7, 1).map(
-        (n) => new Date(new Date(piSunday).setDate(14 + n))
-    );
-    const months = range(0, 12, 1).map(
-        (n) => new Date(new Date(piSunday).setMonth(n))
-    );
-    const genDayMonthStrings = (locale) => ({
-        dayLong: days.map((d) =>
-            d.toLocaleString(locale, {
-                weekday: "long"
-            })
-        ),
-        dayShort: days.map((d) =>
-            d.toLocaleString(locale, {
-                weekday: "short"
-            })
-        ),
-        dayNarrow: days.map((d) =>
-            d.toLocaleString(locale, {
-                weekday: "narrow"
-            })
-        ),
-        monthLong: months.map((m) =>
-            m.toLocaleString(locale, {
-                month: "long"
-            })
-        ),
-        monthShort: months.map((m) =>
-            m.toLocaleString(locale, {
-                month: "short"
-            })
-        ),
-        monthNarrow: months.map((m) =>
-            m.toLocaleString(locale, {
-                month: "narrow"
-            })
-        )
-    });
-    return (locale) => {
-        var nullref0;
 
-        locale = locale.toLowerCase();
-        if (localeCache[locale] === undefined) {
-            const baseLocaleInfo =
-                (nullref0 = localeArgMap[locale]) != null
-                    ? nullref0
-                    : {
-                          longDateFormat: "DD/MM/YYYY",
-                          shortDateFormat: "DD/MM",
-                          locale: loc,
-                          week: 0
-                      };
-            localeCache[locale] = {
-                ...baseLocaleInfo,
-                ...genDayMonthStrings(locale)
-            };
+// const {localeToCountry} = require("./locale-to-country.js")
+
+const localeCache = {};
+
+const piSunday = new Date(1971, 2, 14);
+
+const weekdayDates = Array.from(
+    {length: 7},
+    (_, day) => {
+        const date = new Date(piSunday);
+        date.setDate(14 + day);
+        return date
+    }
+);
+const monthDates = Array.from(
+    {length: 12},
+    (_, month) => {
+        const date = new Date(piSunday);
+        date.setMonth(month);
+        return date
+    }
+);
+
+const dayMonthForLocale = locale => ({
+    weekdayLong: weekdayDates.map(
+        date => date.toLocaleDateString(locale, {weekday: "long"})
+    ),
+    weekdayShort: weekdayDates.map(
+        date => date.toLocaleDateString(locale, {weekday: "short"})
+    ),
+    weekdayNarrow: weekdayDates.map(
+        date => date.toLocaleDateString(locale, {weekday: "narrow"})
+    ),
+    monthLong: monthDates.map(
+        date => date.toLocaleDateString(locale, {month: "long"})
+    ),
+    monthShort: monthDates.map(
+        date => date.toLocaleDateString(locale, {month: "short"})
+    ),
+    monthNarrow: monthDates.map(
+        date => date.toLocaleDateString(locale, {month: "narrow"})
+    ),
+});
+
+const loadLocale = given => {
+    const locale = given.toLowerCase();
+
+    if (localeCache[locale] === undefined) {
+        const baseInfo = localeToCountry[locale] || {
+            locale,
+            longDateFormat: "DD/MM/YYYY",
+            shortDateFormat: "DD/MM",
+            week: 0,
+        };
+        baseInfo.longDateFormat = baseInfo.longDateFormat.replace(
+            /\b\w/g,
+            s => `$${s}`
+        );
+        baseInfo.shortDateFormat = baseInfo.shortDateFormat.replace(
+            /\b\w/g,
+            s => `$${s}`
+        );
+
+        localeCache[locale] = {
+            ...baseInfo,
+            ...dayMonthForLocale(locale),
+        };
+    }
+
+    return localeCache[locale]
+};
+
+const getTimezone = (date, format) => {
+    const localeString = date.toLocaleString({
+        timeZoneName: format,
+        hour: "numeric",
+        hour12: false,
+    });
+
+    return localeString.slice(
+        localeString.indexOf(" ") + 1
+    )
+};
+
+const formatMethod = {
+    d: (date) => date.dayOfWeek,
+    dd: (date) => date.localeData.weekdayNarrow[date.weekday],
+    ddd: (date) => date.localeData.weekdayShort[date.weekday],
+    dddd: (date) => date.localeData.weekdayLong[date.weekday],
+    D: (date) => date.day,
+    DD: (date) => `0${date.day}`.slice(-2),
+    DDD: (date) => "",
+    DDDD: (date) => "",
+    E: (date) => date.dayOfWeek + 1,
+    h: (date) => ((date.hour % 12) != 0) ? (date.hour % 12) : 12,
+    hh: (date) => `0${((date.hour % 12) != 0) ? (date.hour % 12) : 12 }`.slice(-2),
+    H: (date) => date.hour,
+    HH: (date) => `0${date.hour}`.slice(-2),
+    m: (date) => date.minute,
+    mm: (date) => `0${date.minute}`.slice(-2),
+    mmm: (date) => `00${date.millisecond}`.slice(-3),
+    M: (date) => date.month + 1,
+    MM: (date) => `0${date.month + 1}`.slice(-2),
+    MMM: (date) => date.localeData.monthShort[date.month],
+    MMMM: (date) => date.localeData.monthLong[date.month],
+    MMMMM: (date) => date.localeData.monthNarrow[date.month],
+    s: (date) => date.second,
+    ss: (date) => `0${date.second}`.slice(-2),
+    sss: (date) => Math.floor((date - date.startOf("day")) / 1000),
+    t: (date) => (date.hour < 12) ? "A" : "P",
+    tt: (date) => (date.hour < 12) ? "AM" : "PM",
+    TT: (date) => (date.year < 0) ? "BC" : "AD",
+    yy: (date) => `0${date.year}`.slice(-2),
+    yyyy: (date) => date.year,
+    YY: (date) => `0${date.year}`.slice(-2),
+    YYYY: (date) => date.year,
+    L: (date) => date.format(date.localeData.shortDateFormat),
+    LL: (date) => date.format(date.localeData.longDateFormat),
+    LLL: (date) => date.format("$dddd $MMMM $D $YYYY"),
+    z: (date) => getTimezone(date, "short"),
+    Z: (date) => getTimezone(date, "long"),
+    IO: date => date.isoOrdinal,
+    IW: date => date.isoWeek,
+    IY: date => date.isoYear,
+};
+
+const formatMethods = Object
+    .keys(formatMethod)
+    .sort()
+    .reverse();
+const formatRegex = new RegExp(
+    `\\$(\\$|${formatMethods.join("|")})`,
+    "g"
+);
+
+const formatDate = (formatString, date) => formatString.replace(
+    formatRegex,
+    (_, format) => {
+        if (format === "$") {
+            return "$"
         }
-        return localeCache[locale];
-    };
-})();
-const ms_in = {
+
+        if (formatMethod[format] === undefined) {
+            throw new Error(`No format method defined for '${format}'`)
+        }
+
+        return formatMethod[format](date)
+    }
+);
+
+const offsets = [
+    1,
+    0,
+    -1,
+    -2,
+    -3,
+    3,
+    2,
+];
+const week = date => {
+    const isoWeekStart = new Date(date);
+    isoWeekStart.setHours(0, 0, 0, 0);
+    isoWeekStart.setDate(
+        isoWeekStart.getDate()
+        - isoWeekStart.getDay()
+        + 1
+    );
+    const isoYearStart = new Date(
+        isoWeekStart.getFullYear(),
+        0,
+        1
+    );
+    isoYearStart.setDate(
+        isoYearStart.getDate()
+        + offsets[isoYearStart.getDay()]
+    );
+
+    const weekDif = Math.floor(
+        (isoWeekStart - isoYearStart)
+        / (7 * 24 * 60 * 60 * 1000)
+    );
+
+    return weekDif + 1
+};
+const ordinal = date => {
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+    const startOfYear = new Date(
+        date.getFullYear(),
+        0,
+        1
+    );
+
+    return (
+        (startOfDay - startOfYear)
+        / (24 * 60 * 60 * 1000)
+        + 1
+    )
+};
+const year = date => {
+    const monday = new Date(date);
+    monday.setDate(
+        monday.getDate()
+        - monday.getDay()
+        + 1
+    );
+    return monday.getFullYear()
+};
+
+// module.exports = {
+//     week,
+//     ordinal,
+//     year,
+// }
+var isoCalc = {
+    week,
+    ordinal,
+    year,
+};
+
+const msFrom = {
     second: 1000,
     minute: 1000 * 60,
     hour: 1000 * 60 * 60,
     day: 1000 * 60 * 60 * 24,
-    week: 1000 * 60 * 60 * 24 * 7
+    week: 1000 * 60 * 60 * 24 * 7,
 };
-const shift = (() => {
-    const ms = (date, amount) => date.setTime(date.time + amount);
-    const s = (date, amount) => ms(date, amount * ms_in.second);
-    const min = (date, amount) => ms(date, amount * ms_in.minute);
-    const hr = (date, amount) => ms(date, amount * ms_in.hour);
-    const day = (date, amount) => date.setDate(date.date + amount);
-    const wk = (date, amonut) => day(date, amount * 7);
-    const mon = (date, amount) => {
-        const expected = (date.month + amount) % 12;
-        date.setMonth(date.getMonth() + amount);
-        if (date.month !== expected) {
+
+const shift = {
+    millisecond: (date, ms) => date.setTime(
+        date.getTime() + ms
+    ),
+    second: (date, seconds) => shift.millisecond(date, seconds * msFrom.second),
+    minute: (date, minutes) => shift.millisecond(date, minutes * msFrom.minute),
+    hour: (date, hours) => shift.millisecond(date, hours * msFrom.hour),
+    day: (date, days) => date.setDate(
+        date.getDate() + days
+    ),
+    week: (date, weeks) => shift.day(date, weeks * 7),
+    month: (date, months) => {
+        const expectedDay = date.getDate();
+        date.setMonth(
+            date.getMonth() + months
+        );
+
+        if (date.getDate() !== expectedDay) {
             date.setDate(0);
         }
-    };
-    const qtr = (date, amount) => mon(date, amount * 3);
-    const yr = (date, amount) => mon(date, amount * 12);
-    const decade = (date, amount) => mon(date, amount * 120);
-    return {
-        ms: ms,
-        s: s,
-        min: min,
-        hr: hr,
-        day: day,
-        wk: wk,
-        mon: mon,
-        qtr: qtr,
-        yr: yr,
-        decade: decade
-    };
-})();
-const start = (() => {
-    const s = (date) => date.setMilliseconds(0);
-    const min = (date) => date.setSeconds(0, 0);
-    const hr = (date) => date.setMinutes(0, 0, 0);
-    const day = (date) => date.setHours(0, 0, 0, 0);
-    const wk = (date) => {
-        const _w = date.localeData.week;
-        const _n = date.dayOfWeek;
-        let offset = _w - _n;
-        if (offset > 0) {
-            offset -= 7;
-        }
-        date.setDate(date.date + offset);
-        day(date);
-    };
-    const mon = (date) => {
-        day(date);
-        date.setDate(1);
-    };
-    const qtr = (date) => {
-        const m = date.month;
-        mon(date);
-        date.setMonth(m - (m % 3));
-    };
-    const yr = (date) => {
-        day(date);
-        date.setMonth(0, 1);
-    };
-    return {
-        s: s,
-        min: min,
-        hr: hr,
-        day: day,
-        wk: wk,
-        mon: mon,
-        qtr: qtr,
-        yr: yr
-    };
-})();
-const end = (() => {
-    const s = (date) => date.setMilliseconds(999);
-    const min = (date) => date.setSecond(59, 999);
-    const hr = (date) => date.setMinutes(59, 59, 999);
-    const day = (date) => date.setHours(23, 59, 59, 999);
-    const wk = (date) => {
-        const _w = date.localeData.week;
-        const _n = date.dayOfWeek;
-        let offset = 6 + -_n + _w;
-        if (offset >= 7) {
-            offset -= 7;
-        }
-        date.setDate(date.date + offset);
-        day(date);
-    };
-    const mon = (date) => {
-        day(date);
-        date.setDate(1);
-        date.setMonth(date.month + 1);
-        date.setDate(0);
-    };
-    const qtr = (date) => {
-        const m = date.month;
-        date.setDate(1);
-        date.setMonth(m + (2 - (m % 3)));
-        mon(date);
-    };
-    const yr = (date) => {
-        day(date);
-        date.setMonth(11, 31);
-    };
-    return {
-        s: s,
-        min: min,
-        hr: hr,
-        day: day,
-        wk: wk,
-        mon: mon,
-        qtr: qtr,
-        yr: yr
-    };
-})();
-const formatMethods = {
-    d: (date) => date.dayOfWeek,
-    dd: (date) => date.localeData.dayNarrow[date.dayOfWeek],
-    ddd: (date) => date.localeData.dayShort[date.dayOfWeek],
-    dddd: (date) => date.localeData.dayLong[date.dayOfWeek],
-    D: (date) => date.date,
-    DD: (date) => `0${date.date}`.slice(-2, undefined),
-    DDD: (date) => ``,
-    DDDD: (date) => ``,
-    E: (date) => date.dayOfWeek + 1,
-    h: (date) => (date.hours % 12 !== 0 ? date.hours % 12 : 12),
-    hh: (date) =>
-        "0${((date.hours % 12) != 0) ? (date.hours % 12) : 12 || 12}".slice(
-            -2,
-            undefined
+    },
+    year: (date, years) => date.setYear(
+        date.getFullYear() + years
+    )
+};
+
+const shiftDate = (date, shifts) => {
+    for (const [unit, value] of Object.entries(shifts)) {
+        shift[unit](date, value);
+    }
+};
+
+// const loadLocale = require("./load-locale.js")
+
+// const shiftAliasGroups = [
+//     ["ms", "milliseconds", "millisecond"],
+//     ["s", "seconds", "second"],
+//     ["min", "minutes", "minute"],
+//     ["hr", "hours", "hour"],
+//     ["day", "days"],
+//     ["wk", "week", "weeks"],
+//     ["mon", "month", "months"],
+//     ["qtr", "quarter", "quarters"],
+//     ["yr", "year", "years"],
+//     ["decade", "decades"],
+// ]
+// const shiftAliases = shiftAliasGroups.reduce(
+//     (mapping, nameList) => {
+//         const target = nameList[0]
+
+//         for (const alias of nameList) {
+//             mapping[alias] = target
+//         }
+//         return mapping
+//     },
+//     {}
+// )
+
+const Chrono = (localDate, localeData, tzOffset) => {
+    const date = new Date(localDate.getTime() + tzOffset);
+    const tzMinutes = tzOffset / 1000 / 60;
+    const self = Object.freeze({
+        get localeData() {
+            return localeData
+        },
+        get locale() {
+            return localeData.locale
+        },
+
+        get millisecond() {
+            return date.getUTCMilliseconds()
+        },
+        get second() {
+            return date.getUTCSeconds()
+        },
+        get minute() {
+            return date.getUTCMinutes()
+        },
+        get hour() {
+            return date.getUTCHours()
+        },
+        get day() {
+            return date.getUTCDate()
+        },
+        get weekday() {
+            return date.getUTCDay()
+        },
+        get month() {
+            return date.getUTCMonth() + 1
+        },
+        get year() {
+            return date.getUTCFullYear()
+        },
+        get isoWeekday() {
+            return date.getUTCDay() || 7
+        },
+        get isoWeek() {
+            return isoCalc.week(localDate)
+        },
+        get isoOrdinal() {
+            return isoCalc.ordinal(localDate)
+        },
+        get isoYear() {
+            return isoCalc.year(localDate)
+        },
+
+        get timestamp() {
+            return localDate.getTime()
+        },
+        get tzOffset() {
+            return tzMinutes
+        },
+
+        toArray: () => [
+            self.year,
+            self.month,
+            self.day,
+            self.hour,
+            self.minute,
+            self.second,
+            self.millisecond,
+        ],
+        toObject: () => ({
+            year: self.year,
+            month: self.month,
+            day: self.day,
+            hour: self.hour,
+            minute: self.minute,
+            second: self.second,
+            millisecond: self.millisecond,
+        }),
+
+        toString: () => localDate.toString(),
+        toLocaleString: (options) => localDate.toLocaleString(
+            localeData.locale,
+            options
         ),
-    H: (date) => date.hours,
-    HH: (date) => `0${date.hours}`.slice(-2, undefined),
-    m: (date) => date.minutes,
-    mm: (date) => `0${date.minutes}`.slice(-2, undefined),
-    mmm: (date) => `00${date.milliseconds}`.slice(-3),
-    M: (date) => date.month + 1,
-    MM: (date) => `0${date.month + 1}`.slice(-2, undefined),
-    MMM: (date) => date.localeData.monthShort[date.month],
-    MMMM: (date) => date.localeData.monthLong[date.month],
-    MMMMM: (date) => date.localeData.monthNarrow[date.month],
-    s: (date) => date.seconds,
-    ss: (date) => `0${date.seconds}`.slice(-2, undefined),
-    sss: (date) => Math.floor((date - date.startOf("day")) / 1000),
-    t: (date) => (date.hours < 12 ? "A" : "P"),
-    tt: (date) => (date.hours < 12 ? "AM" : "PM"),
-    TT: (date) => (date.year < 0 ? "BC" : "AD"),
-    yy: (date) => `0${date.year}`.slice(-2, undefined),
-    yyyy: (date) => date.year,
-    YY: (date) => `0${date.year}`.slice(-2, undefined),
-    YYYY: (date) => date.year,
-    L: (date) => date.format(date.localeData.shortDateFormat),
-    LL: (date) => date.format(date.localeData.longDateFormat),
-    LLL: (date) => date.format("dddd MMMM D YYYY")
-};
-const formatTypes = Object.keys(formatMethods)
-    .sort()
-    .reverse();
-const formatPattern = new RegExp(`\\[.*?\\]|${formatTypes.join("|")}`, "g");
-const defaultLocale =
-    typeof navigator !== "undefined" ? navigator.language : "en-US";
-class Chrono extends Date {
-    constructor(...args) {
-        switch (true) {
-            case args.length === 0 || args[0] === null:
-                super();
-                break;
-            case args[0] instanceof Date:
-                super(args[0]);
-                break;
-            case typeof args[0] === "object": {
-                const src = new Date();
-                const {
-                    year = src.getFullYear(),
-                    month = src.getMonth(),
-                    day = src.getDate() - 1,
-                    hour = 0,
-                    minute = 0,
-                    second = 0,
-                    millisecond = 0
-                } = args[0];
-                super(year, month, day + 1, hour, minute, second, millisecond);
-                break;
-            }
-            case isNaN(args[0]) === true:
-                super(NaN);
-                break;
-            default:
-                super(...args);
-        }
-        const locale = (() => {
-            switch (true) {
-                case typeof args[0] === "object" && args.length > 1:
-                    return args[1];
-                case args[0] instanceof Chrono:
-                    return args[0].locale;
-                default:
-                    return Chrono.defaultLocale;
-            }
-        })();
-        Object.defineProperty(this, "localeData", {
-            enumerable: true,
-            configurable: false,
-            get: () => loadLocale(locale)
-        });
-    }
-    get locale() {
-        return this.localeData.locale;
-    }
-    get milliseconds() {
-        return this.getMilliseconds();
-    }
-    get seconds() {
-        return this.getSeconds();
-    }
-    get minutes() {
-        return this.getMinutes();
-    }
-    get hours() {
-        return this.getHours();
-    }
-    get date() {
-        return this.getDate();
-    }
-    get date0() {
-        return this.getDate() - 1;
-    }
-    get dayOfWeek() {
-        return this.getDay();
-    }
-    get month() {
-        return this.getMonth();
-    }
-    get year() {
-        return this.getFullYear();
-    }
-    get utcMilliseconds() {
-        return this.getUTCMilliseconds();
-    }
-    get utcSeconds() {
-        return this.getUTCSeconds();
-    }
-    get utcMinutes() {
-        return this.getUTCMinutes();
-    }
-    get utcHours() {
-        return this.getUTCHours();
-    }
-    get utcDate() {
-        return this.getUTCDate();
-    }
-    get utcDate0() {
-        return this.getUTCDate() - 1;
-    }
-    get utcDayOfWeek() {
-        return this.getUTCDay();
-    }
-    get utcMonth() {
-        return this.getUTCMonth();
-    }
-    get utcYear() {
-        return this.getUTCFullYear();
-    }
-    get time() {
-        return this.getTime();
-    }
-    shift(amount, unit) {
-        const newChrono = new Chrono(this);
-        const func = functionMap[unit];
-        shift[func](newChrono, amount);
-        return newChrono;
-    }
-    startOf(unit) {
-        const newChrono = new Chrono(this);
-        const func = functionMap[unit];
-        start[func](newChrono);
-        return newChrono;
-    }
-    endOf(unit) {
-        const newChrono = new Chrono(this);
-        const func = functionMap[unit];
-        end[func](newChrono);
-        return newChrono;
-    }
-    dif(other) {
-        const difMS = Math.abs(this.time - other.time);
-        const dif = new Chrono(difMS);
-        return {
-            milliseconds: dif.utcMilliseconds,
-            seconds: dif.utcSeconds,
-            minutes: dif.utcMinutes,
-            hours: dif.utcHours,
-            days: dif.utcDate0,
-            month: dif.utcMonth,
-            years: dif.utcYear - 1970,
-            time: dif.time
-        };
-    }
-    toLocale(locale) {
-        return new Chrono(this, locale);
-    }
-    format(formatString = null) {
-        if (formatString === null) {
-            return this.toLocaleString(this.locale);
-        }
-        return formatString.replace(formatPattern, (match) => {
-            if (match.charAt(0) === "[") {
-                return match.slice(1, -1);
-            }
-            if (formatMethods.hasOwnProperty(match) === false) {
-                throw new Error(`"${match}" is not a valid date formatter`);
-            }
-            return formatMethods[match](this);
-        });
-    }
-}
-Chrono.defaultLocale = defaultLocale;
-Chrono.min = new Chrono(-8640000000000000);
-Chrono.max = new Chrono(8640000000000000);
-Chrono.trigger = (time, func, ...args) => setTimeout(() => func(...args), time);
-Chrono.sort = {
-    asc: (a, b) => {
-        if (a > b) {
-            return 1;
-        }
-        if (a < b) {
-            return -1;
-        }
-        return 0;
-    },
-    desc: (a, b) => (-Chrono).sort.asc(a, b)
-};
-const isNum = (i) => (i >= 48 && i <= 57 ? 1 : -1);
-const isNumO = (i) => (i >= 48 && i <= 57 ? 1 : 0);
-const letter = (l) => (i) => (l === i ? 1 : -1);
-const letterChoice = (...choices) => {
-    choices = choices.map((l) => l.charCodeAt(0));
-    return (i) => (choices.indexOf(i) !== -1 ? 1 : -1);
-};
-const consumeTokens = (toks, str, index) => {
-    let i = 0;
-    let t = 0;
-    while (i < toks.length) {
-        const tok = toks[i];
-        const res = tok(str.charCodeAt(index + t));
-        if (res === -1) {
-            return null;
-        }
-        t += res;
-        i += 1;
-    }
-    return t;
-};
-const parseMethods = {
-    D: {
-        match: [isNum, isNumO],
-        value: (match) => parseInt(match) - 1,
-        check: (value) => value >= 0 && value <= 31,
-        process: (d, value) => {
-            d.day = value;
-        }
-    },
-    DD: {
-        match: [isNum, isNum],
-        value: (match) => parseInt(match) - 1,
-        check: (value) => value >= 0 && value <= 31,
-        process: (d, value) => {
-            d.day = value;
-        }
-    },
-    h: {
-        match: [isNum, isNumO],
-        value: (match) => parseInt(match),
-        check: (value) => value >= 0 && value <= 24,
-        process: (d, value) => {
-            d.hour = value;
-        }
-    },
-    hh: {
-        match: [isNum, isNum],
-        value: (match) => parseInt(match),
-        check: (value) => value >= 0 && value <= 24,
-        process: (d, value) => {
-            d.hour = value;
-        }
-    },
-    m: {
-        match: [isNum, isNumO],
-        value: (match) => parseInt(match),
-        check: (value) => value >= 0 && value <= 59,
-        process: (d, value) => {
-            d.minute = value;
-        }
-    },
-    mm: {
-        match: [isNum, isNum],
-        value: (match) => parseInt(match),
-        check: (value) => value >= 0 && value <= 59,
-        process: (d, value) => {
-            d.minute = value;
-        }
-    },
-    mmm: {
-        match: [isNum, isNum, isNum],
-        value: (match) => parseInt(match),
-        check: (value) => value >= 0 && value <= 999,
-        process: (d, value) => {
-            d.millisecond = value;
-        }
-    },
-    M: {
-        match: [isNum, isNumO],
-        value: (match) => parseInt(match) - 1,
-        check: (value) => value >= 0 && value <= 11,
-        process: (d, value) => {
-            d.month = value;
-        }
-    },
-    MM: {
-        match: [isNum, isNum],
-        value: (match) => parseInt(match) - 1,
-        check: (value) => value >= 0 && value <= 11,
-        process: (d, value) => {
-            d.month = value;
-        }
-    },
-    s: {
-        match: [isNum, isNumO],
-        value: (match) => parseInt(match),
-        check: (value) => value >= 0 && value <= 59,
-        process: (d, value) => {
-            d.second = value;
-        }
-    },
-    ss: {
-        match: [isNum, isNum],
-        value: (match) => parseInt(match),
-        check: (value) => value >= 0 && value <= 59,
-        process: (d, value) => {
-            d.second = value;
-        }
-    },
-    t: {
-        match: [letterChoice("A", "P", "a", "p")],
-        value: (i) => i,
-        check: () => true,
-        process: (d, value) => {
-            if (value.toLowerCase() === "p") {
-                d.hour += 12;
-            }
-        }
-    },
-    tt: {
-        match: [letterChoice("A", "P", "a", "p"), letterChoice("M", "m")],
-        value: (i) => i,
-        check: () => true,
-        process: (d, value) => {
-            if (value.toLowerCase() === "pm") {
-                d.hour += 12;
-            }
-        }
-    },
-    yy: {
-        match: [isNum, isNum],
-        value: (match) => 1900 + parseInt(match),
-        check: () => true,
-        process: (d, value) => {
-            d.year = value;
-        }
-    },
-    yyyy: {
-        match: [isNum, isNum, isNum, isNum],
-        value: (match) => parseInt(match),
-        check: () => true,
-        process: (d, value) => {
-            d.year = value;
-        }
-    }
-};
-parseMethods.H = parseMethods.h;
-parseMethods.HH = parseMethods.hh;
-parseMethods.YY = parseMethods.yy;
-parseMethods.YYYY = parseMethods.yyyy;
-const defaultParseMethod = (ch) => ({
-    match: [letter(ch.charCodeAt(0))],
-    process: () => ({}),
-    check: () => true,
-    value: (i) => i
-});
-const parseKeys = Object.keys(parseMethods)
-    .sort()
-    .reverse();
-const parseMethodRegex = new RegExp(`(${parseKeys.join("|")}|.)`, "g");
-Chrono.parse = (dateString, format = null, locale = null) => {
-    var nullref0, nullref1, nullref2;
+        toUTCString: () => localDate.toUTCString(),
+        valueOf: () => localDate.getTime(),
 
-    if (format === null) {
-        return new Chrono(Date.parse(dateString));
-    }
-    let parseLocale = locale;
-    if (parseLocale === null) {
-        parseLocale = Chrono.defaultLocale;
-    }
-    parseLocale = parseLocale.toLowerCase();
-    if (format === null) {
-        return new Chrono(Date.parse(dateString));
-    }
-    const { longDateFormat, shortDateFormat } = loadLocale(parseLocale);
-    format = format
-        .replace(/LLL/g, "dddd MMMM D YYYY")
-        .replace(/LL/g, longDateFormat)
-        .replace(/L/g, shortDateFormat);
-    const tokens = format.match(parseMethodRegex);
-    const parseResult = {};
-    let i = 0;
-    let j = 0;
-    while (i < tokens.length) {
-        const token = tokens[i];
-        const method =
-            (nullref0 = parseMethods[token]) != null
-                ? nullref0
-                : defaultParseMethod(token);
-        const t = consumeTokens(method.match, dateString, j);
-        const match = dateString.slice(j, j + t);
-        const value = method.value(match);
-        if (t === null || method.check(value) === false) {
-            return new Chrono(
-                new Date(dateString),
-                (nullref1 = locale) != null ? nullref1 : defaultLocale
-            );
-        }
-        method.process(parseResult, value);
-        j += match.length;
-        i += 1;
-    }
-    return new Chrono(
-        parseResult,
-        (nullref2 = locale) != null ? nullref2 : defaultLocale
-    );
-};
-const CreateChrono = (...args) => new Chrono(...args);
-CreateChrono.class = Chrono;
-Object.assign(CreateChrono, Chrono);
+        inLocale: locale => Chrono(
+            localDate,
+            loadLocale(locale),
+            tzOffset
+        ),
+        with: object => {
+            const source = {
+                ...self.toObject(),
+                ...object
+            };
 
-module.exports = CreateChrono;
+            const {
+                year = 1970,
+                month = 1,
+                day = 1,
+                hour = 1,
+                minute = 1,
+                second = 1,
+                millisecond = 1
+            } = source;
+
+            return Chrono(
+                new Date(year, month, day, hour, minute, second, millisecond),
+                localeData,
+                tzOffset
+            )
+        },
+        withTimezoneOffset: (newOffset) => {
+            const offset = newOffset * 60 * 1000;
+            const date = new Date(localDate);
+            date.setTime(date.getTime() + offset);
+
+            return Chrono(date, localeData, offset)
+        },
+        shift: (shifts) => {
+            const shiftedDate = new Date(localDate);
+
+            shiftDate(shiftedDate, shifts);
+
+            return Chrono(
+                shiftedDate,
+                localeData,
+                tzOffset
+            )
+        },
+
+        format: formatString => formatDate(formatString, self)
+    });
+
+    return self
+};
+
+// const {localeSupported} = require("./locale-to-country.js")
+
+const defaults = {
+    locale: "en-US",
+    tzOffset: -(new Date()).getTimezoneOffset() * 60 * 1000,
+};
+const API = {
+    local: (...args) => {
+        for (const arg of args) {
+            if (typeof arg !== "number") {
+                throw new Error("Chrono.local only accepts numeric arguments")
+            }
+        }
+        if (args.length > 1) {
+            args = [...args];
+            args[1] -= 1;
+        }
+        const date = new Date(...args);
+        return Chrono(
+            date,
+            loadLocale(defaults.locale),
+            defaults.tzOffset
+        )
+    },
+    fromObject: (source) => {
+        const {
+            year = 1970,
+            month = 1,
+            day = 1,
+            hour = 1,
+            minute = 1,
+            second = 1,
+            millisecond = 1
+        } = source;
+
+        return Chrono(
+            new Date(year, month, day, hour, minute, second, millisecond),
+            loadLocale(defaults.locale),
+            defaults.tzOffset
+        )
+    },
+    fromDate: sourceDate => {
+        const date = new Date(sourceDate);
+
+        return Chrono(
+            date,
+            loadLocale(defaults.locale),
+            defaults.tzOffset
+        )
+    },
+    fromTimestamp: ts => {
+        const date = new Date();
+        date.setTime(ts);
+
+        return Chrono(
+            date,
+            loadLocale(defaults.locale),
+            defaults.tzOffset
+        )
+    },
+
+    localeSupported,
+
+    setDefaultLocale: locale => {
+        if (localeSupported(locale) === false) {
+            throw new Error(`Locale '${locale}' is not supported`)
+        }
+        defaults.locale = locale;
+    },
+    setDefaultTZOffset: offset => {
+        defaults.tzOffset = offset;
+    },
+
+    max: (...dates) => {
+        let max = dates[0];
+
+        for (const date of dates) {
+            if (date > max) {
+                max = date;
+            }
+        }
+
+        return max
+    },
+    min: (...dates) => {
+        let min = dates[0];
+
+        for (const date of dates) {
+            if (date < min) {
+                min = date;
+            }
+        }
+
+        return min
+    },
+};
+
+const now = new Date();
+// now.setHours(2)
+const test = API.fromDate(now);
+
+console.log(
+    test
+        .shift({
+            hour: 2,
+            minute: -5,
+        })
+        .toString()
+);
+
+const monthEnd = API.local(2020, 1, 31);
+console.log(monthEnd.toString());
+console.log(
+    monthEnd
+        .shift({
+            month: 1,
+        })
+        .toString()
+);
+
+module.exports = API;

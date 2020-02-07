@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "rollup -c && rollup -c rollup.min.config.js",
-    "test": "env NODE_ICU_DATA=node_modules/full-icu node src/chrono.js"
+    "test": "npm run build && env NODE_ICU_DATA=node_modules/full-icu node index.js"
   },
   "repository": {
     "type": "git",
