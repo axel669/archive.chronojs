@@ -101,7 +101,7 @@ const Chrono = (localDate, localeData, tzOffset) => {
         },
 
         get rawDate() {
-            return newDate(localDate)
+            return new Date(localDate)
         },
 
         toArray: () => [

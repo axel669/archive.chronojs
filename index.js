@@ -2966,7 +2966,7 @@ const Chrono = (localDate, localeData, tzOffset) => {
         },
 
         get rawDate() {
-            return newDate(localDate)
+            return new Date(localDate)
         },
 
         toArray: () => [
@@ -3163,6 +3163,15 @@ const API = {
 
         return min
     },
+
+    dif: (a, b) => {
+        const first = API.min(a, b);
+        const second = API.max(a, b);
+
+        const msDiff = second.rawDate - first.rawDate;
+
+        return msDiff
+    }
 };
 
 module.exports = API;
