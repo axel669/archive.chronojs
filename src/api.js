@@ -1,6 +1,3 @@
-// const {localeSupported} = require("./locale-to-country.js")
-// const loadLocale = require("./load-locale.js")
-// const Chrono = require("./chrono.js")
 import {localeSupported} from "./locale-to-country.js"
 import loadLocale from "./load-locale.js"
 import Chrono from "./chrono.js"
@@ -99,89 +96,5 @@ const API = {
         return min
     },
 }
-
-const now = new Date()
-// now.setHours(2)
-const test = API.fromDate(now)
-
-console.log(
-    test
-        .shift({
-            hour: 2,
-            minute: -5,
-        })
-        .toString()
-)
-
-const monthEnd = API.local(2020, 1, 31)
-console.log(monthEnd.toString())
-console.log(
-    monthEnd
-        .shift({
-            month: 1,
-        })
-        .toString()
-)
-
-// console.log(now.toString())
-// console.log(test.toString())
-// console.log(test.isoWeek)
-// console.log(test.isoOrdinal)
-// console.log(test.isoYear)
-// console.log(test.hour)
-// console.log(now.getUTCHours())
-// console.log(test.tzOffset)
-
-// const offset = test.withTimezoneOffset(0)
-// console.log("tz0", offset.hour)
-
-// const early = API.local(2020, 1, 1)
-// console.log(
-//     Math.min(now, early),
-//     Math.min(test, early)
-// )
-// console.log(
-//     test.format("$MM/$DD/$yyyy $$hi"),
-// )
-// console.log(test.format("$L"))
-// console.log(test.format("$LL"))
-// console.log(test.inLocale("es-ES").format("$LLL $HH:$mm:$ss ($z)"))
-// console.log(test.format("$LLL $HH:$mm:$ss ($Z)"))
-// console.log(
-//     test
-//         // .inLocale("de-DE")
-//         .toLocaleString({
-//             weekday: "long",
-//             month: "long",
-//             year: "numeric",
-//             day: "numeric",
-//             timeZone: "America/New_York",
-//             timeZoneName: "long",
-//             hour: "2-digit",
-//             minute: "2-digit",
-//         })
-// )
-// console.log(
-//     test
-//         // .inLocale("es-ES")
-//         .toLocaleString({
-//             timeZone: "America/New_York",
-//             timeZoneName: "long",
-//             hour: "2-digit",
-//             hour12: false,
-//             // hour: "2-digit",
-//             // minute: "2-digit",
-//         })
-// )
-
-// console.log(test.format("day $IO, week $IW, $IY ($Z)"))
-// console.log(test.with({hour: 10}).toString())
-
-// console.log(
-//     API.min(test, early).toString()
-// )
-// console.log(
-//     API.max(test, early).toString()
-// )
 
 export default API

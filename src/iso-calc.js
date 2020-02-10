@@ -57,11 +57,6 @@ const year = date => {
     return monday.getFullYear()
 }
 
-// module.exports = {
-//     week,
-//     ordinal,
-//     year,
-// }
 export default {
     week,
     ordinal,

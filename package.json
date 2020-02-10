@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "rollup -c && rollup -c rollup.min.config.js",
-    "test": "npm run build && env NODE_ICU_DATA=node_modules/full-icu node index.js"
+    "test": "npm run build && env NODE_ICU_DATA=node_modules/full-icu node tests/simple.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/axel669/ChronoJS#readme",
   "devDependencies": {
+    "@axel669/bracer": "^0.2.0",
     "rollup": "^1.9.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-terser": "^4.0.4"

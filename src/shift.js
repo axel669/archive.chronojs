@@ -32,9 +32,22 @@ const shift = {
     )
 }
 
+const shiftOrder = [
+    "millisecond",
+    "second",
+    "minute",
+    "hour",
+    "day",
+    "week",
+    "month",
+    "year",
+]
+
 const shiftDate = (date, shifts) => {
-    for (const [unit, value] of Object.entries(shifts)) {
-        shift[unit](date, value)
+    for (const unit of shiftOrder) {
+        if (shifts[unit] !== undefined) {
+            shift[unit](date, shifts[unit])
+        }
     }
 }
 

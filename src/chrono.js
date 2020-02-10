@@ -1,38 +1,32 @@
-// const loadLocale = require("./load-locale.js")
-// const formatDate = require("./format.js")
-// const isoCalc = require("./iso-calc.js")
 import loadLocale from "./load-locale.js"
 import formatDate from "./format.js"
 import isoCalc from "./iso-calc.js"
 import shiftDate from "./shift.js"
+import startOf from "./start-of.js"
+import endOf from "./end-of.js"
 
-// const shiftAliasGroups = [
-//     ["ms", "milliseconds", "millisecond"],
-//     ["s", "seconds", "second"],
-//     ["min", "minutes", "minute"],
-//     ["hr", "hours", "hour"],
-//     ["day", "days"],
-//     ["wk", "week", "weeks"],
-//     ["mon", "month", "months"],
-//     ["qtr", "quarter", "quarters"],
-//     ["yr", "year", "years"],
-//     ["decade", "decades"],
-// ]
-// const shiftAliases = shiftAliasGroups.reduce(
-//     (mapping, nameList) => {
-//         const target = nameList[0]
+const daysInMonth = date => {
+    const track = new Date(date)
+    track.setMonth(track.getMonth() + 1, 0)
+    return track.getDate()
+}
+const daysInYear = date => {
+    const start = new Date(date.getFullYear(), 0, 1)
+    const end = new Date(date.getFullYear() + 1, 0, 1)
+    const dif = end - start
 
-//         for (const alias of nameList) {
-//             mapping[alias] = target
-//         }
-//         return mapping
-//     },
-//     {}
-// )
+    return Math.floor(
+        dif / 24 / 60 / 60 / 1000
+    )
+}
 
 const Chrono = (localDate, localeData, tzOffset) => {
     const date = new Date(localDate.getTime() + tzOffset)
     const tzMinutes = tzOffset / 1000 / 60
+
+    const dIM = daysInMonth(localDate)
+    const dIY = daysInYear(localDate)
+
     const self = Object.freeze({
         get localeData() {
             return localeData
@@ -83,6 +77,31 @@ const Chrono = (localDate, localeData, tzOffset) => {
         },
         get tzOffset() {
             return tzMinutes
+        },
+
+        get daysInMonth() {
+            return dIM
+        },
+        get daysInYear() {
+            return dIY
+        },
+        get isDST() {
+            const nonDST = new Date(self.year, 0, 1)
+            const current = localDate
+            return nonDST.getTimezoneOffset() !== current.getTimezoneOffset()
+        },
+        get isLeapYear() {
+            return (
+                self.year % 4 === 0
+                && (
+                    self.year % 100 !== 0
+                    || self.year % 400 === 0
+                )
+            )
+        },
+
+        get rawDate() {
+            return newDate(localDate)
         },
 
         toArray: () => [
@@ -157,6 +176,28 @@ const Chrono = (localDate, localeData, tzOffset) => {
                 tzOffset
             )
         },
+        startOf: unit => {
+            const shiftedDate = new Date(localDate)
+
+            startOf(shiftedDate, localeData, unit)
+
+            return Chrono(
+                shiftedDate,
+                localeData,
+                tzOffset
+            )
+        },
+        endOf: unit => {
+            const shiftedDate = new Date(localDate)
+
+            endOf(shiftedDate, localeData, unit)
+
+            return Chrono(
+                shiftedDate,
+                localeData,
+                tzOffset
+            )
+        },
 
         format: formatString => formatDate(formatString, self)
     })
@@ -164,5 +205,4 @@ const Chrono = (localDate, localeData, tzOffset) => {
     return self
 }
 
-// module.exports = Chrono
 export default Chrono

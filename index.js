@@ -2523,8 +2523,6 @@ var countryData = [
     }
 ];
 
-// const countryData = require("./country-data.json")
-
 const localeToCountry = countryData.reduce(
     (mapping, country) => {
         mapping[country.iso2.toLowerCase()] = country;
@@ -2539,8 +2537,6 @@ const localeToCountry = countryData.reduce(
 const localeSupported = locale => {
     return localeToCountry[locale.toLowerCase()] !== undefined
 };
-
-// const {localeToCountry} = require("./locale-to-country.js")
 
 const localeCache = {};
 
@@ -2749,11 +2745,6 @@ const year = date => {
     return monday.getFullYear()
 };
 
-// module.exports = {
-//     week,
-//     ordinal,
-//     year,
-// }
 var isoCalc = {
     week,
     ordinal,
@@ -2794,41 +2785,113 @@ const shift = {
     )
 };
 
+const shiftOrder = [
+    "millisecond",
+    "second",
+    "minute",
+    "hour",
+    "day",
+    "week",
+    "month",
+    "year",
+];
+
 const shiftDate = (date, shifts) => {
-    for (const [unit, value] of Object.entries(shifts)) {
-        shift[unit](date, value);
+    for (const unit of shiftOrder) {
+        if (shifts[unit] !== undefined) {
+            shift[unit](date, shifts[unit]);
+        }
     }
 };
 
-// const loadLocale = require("./load-locale.js")
+const startOf = {
+    second: date => date.setMilliseconds(0),
+    minute: date => date.setSeconds(0, 0),
+    hour: date => date.setMinutes(0, 0, 0),
+    day: date => date.setHours(0, 0, 0, 0),
+    month: date => {
+        date.setDate(1);
+        startOf.day(date);
+    },
+    year: date => {
+        date.setMonth(0, 1);
+        startOf.day(date);
+    },
 
-// const shiftAliasGroups = [
-//     ["ms", "milliseconds", "millisecond"],
-//     ["s", "seconds", "second"],
-//     ["min", "minutes", "minute"],
-//     ["hr", "hours", "hour"],
-//     ["day", "days"],
-//     ["wk", "week", "weeks"],
-//     ["mon", "month", "months"],
-//     ["qtr", "quarter", "quarters"],
-//     ["yr", "year", "years"],
-//     ["decade", "decades"],
-// ]
-// const shiftAliases = shiftAliasGroups.reduce(
-//     (mapping, nameList) => {
-//         const target = nameList[0]
+    week: (date, localeData) => {
+        const weekStart = localeData.week;
+        const weekday = date.getDay();
 
-//         for (const alias of nameList) {
-//             mapping[alias] = target
-//         }
-//         return mapping
-//     },
-//     {}
-// )
+        const offset = (weekStart - weekday - 7) % 7;
+
+        date.setDate(date.getDate() + offset);
+        startOf.day(date);
+    },
+};
+
+var startOf$1 = (date, localeData, unit) => {
+    if (startOf[unit] === undefined) {
+        throw new Error(`Start of ${unit} is not supported`)
+    }
+    startOf[unit](date, localeData);
+};
+
+const endOf = {
+    second: date => date.setMilliseconds(999),
+    minute: date => date.setSeconds(59, 999),
+    hour: date => date.setMinutes(59, 59, 999),
+    day: date => date.setHours(23, 59, 59, 999),
+    month: date => {
+        date.setDate(1);
+        date.setMonth(date.getMonth() + 1);
+        date.setDate(0);
+        endOf.day(date);
+    },
+    year: date => {
+        endOf.day(date);
+        date.setMonth(11, 31);
+    },
+
+    week: (date, localeData) => {
+        const weekStart = localeData.week;
+        const weekday = date.getDay();
+
+        const offset = (6 - weekday + weekStart) % 7;
+
+        date.setDate(date.getDate() + offset);
+        endOf.day(date);
+    },
+};
+
+var endOf$1 = (date, localeData, unit) => {
+    if (endOf[unit] === undefined) {
+        throw new Error(`Start of ${unit} is not supported`)
+    }
+    endOf[unit](date, localeData);
+};
+
+const daysInMonth = date => {
+    const track = new Date(date);
+    track.setMonth(track.getMonth() + 1, 0);
+    return track.getDate()
+};
+const daysInYear = date => {
+    const start = new Date(date.getFullYear(), 0, 1);
+    const end = new Date(date.getFullYear() + 1, 0, 1);
+    const dif = end - start;
+
+    return Math.floor(
+        dif / 24 / 60 / 60 / 1000
+    )
+};
 
 const Chrono = (localDate, localeData, tzOffset) => {
     const date = new Date(localDate.getTime() + tzOffset);
     const tzMinutes = tzOffset / 1000 / 60;
+
+    const dIM = daysInMonth(localDate);
+    const dIY = daysInYear(localDate);
+
     const self = Object.freeze({
         get localeData() {
             return localeData
@@ -2879,6 +2942,31 @@ const Chrono = (localDate, localeData, tzOffset) => {
         },
         get tzOffset() {
             return tzMinutes
+        },
+
+        get daysInMonth() {
+            return dIM
+        },
+        get daysInYear() {
+            return dIY
+        },
+        get isDST() {
+            const nonDST = new Date(self.year, 0, 1);
+            const current = localDate;
+            return nonDST.getTimezoneOffset() !== current.getTimezoneOffset()
+        },
+        get isLeapYear() {
+            return (
+                self.year % 4 === 0
+                && (
+                    self.year % 100 !== 0
+                    || self.year % 400 === 0
+                )
+            )
+        },
+
+        get rawDate() {
+            return newDate(localDate)
         },
 
         toArray: () => [
@@ -2953,14 +3041,34 @@ const Chrono = (localDate, localeData, tzOffset) => {
                 tzOffset
             )
         },
+        startOf: unit => {
+            const shiftedDate = new Date(localDate);
+
+            startOf$1(shiftedDate, localeData, unit);
+
+            return Chrono(
+                shiftedDate,
+                localeData,
+                tzOffset
+            )
+        },
+        endOf: unit => {
+            const shiftedDate = new Date(localDate);
+
+            endOf$1(shiftedDate, localeData, unit);
+
+            return Chrono(
+                shiftedDate,
+                localeData,
+                tzOffset
+            )
+        },
 
         format: formatString => formatDate(formatString, self)
     });
 
     return self
 };
-
-// const {localeSupported} = require("./locale-to-country.js")
 
 const defaults = {
     locale: "en-US",
@@ -3056,28 +3164,5 @@ const API = {
         return min
     },
 };
-
-const now = new Date();
-// now.setHours(2)
-const test = API.fromDate(now);
-
-console.log(
-    test
-        .shift({
-            hour: 2,
-            minute: -5,
-        })
-        .toString()
-);
-
-const monthEnd = API.local(2020, 1, 31);
-console.log(monthEnd.toString());
-console.log(
-    monthEnd
-        .shift({
-            month: 1,
-        })
-        .toString()
-);
 
 module.exports = API;

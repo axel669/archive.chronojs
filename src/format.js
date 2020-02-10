@@ -76,5 +76,4 @@ const formatDate = (formatString, date) => formatString.replace(
     }
 )
 
-// module.exports = formatDate
 export default formatDate
