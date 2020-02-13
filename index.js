@@ -2777,7 +2777,8 @@ const shift = {
         );
 
         if (date.getDate() !== expectedDay) {
-            date.setDate(0);
+            const correction = (months > 0) ? 0 : 1;
+            date.setMonth(date.getMonth() + correction, 0);
         }
     },
     year: (date, years) => date.setYear(
@@ -2790,9 +2791,9 @@ const shiftOrder = [
     "second",
     "minute",
     "hour",
+    "month",
     "day",
     "week",
-    "month",
     "year",
 ];
 
@@ -3070,6 +3071,12 @@ const Chrono = (localDate, localeData, tzOffset) => {
     return self
 };
 
+const compose = (...funcs) =>
+    (...arg) => funcs.reduce(
+        (current, next) => next(...current),
+        arg
+    );
+
 const defaults = {
     locale: "en-US",
     tzOffset: -(new Date()).getTimezoneOffset() * 60 * 1000,
@@ -3168,9 +3175,44 @@ const API = {
         const first = API.min(a, b);
         const second = API.max(a, b);
 
-        const msDiff = second.rawDate - first.rawDate;
+        const msDiff = second.timestamp - first.timestamp;
 
-        return msDiff
+        const convert = compose(
+            (dif, value) => [
+                {...dif, millisecond: value % 1000},
+                Math.floor(value / 1000)
+            ],
+            (dif, value) => [
+                {...dif, second: value % 60},
+                Math.floor(value / 60)
+            ],
+            (dif, value) => [
+                {...dif, minute: value % 60},
+                Math.floor(value / 60)
+            ],
+            (dif, value) => [
+                {...dif, hour: value % 24},
+                Math.floor(value / 24)
+            ],
+            (dif, value) => ({
+                ...dif,
+                ordinal: value,
+            })
+        );
+
+        const duration = convert({}, msDiff);
+        duration.year = second.year - first.year;
+        duration.month = second.month - first.month;
+        duration.day = second.day - first.day;
+
+        if (duration.day < 0) {
+            const adjust = second.rawDate;
+            adjust.setDate(0);
+            duration.month -= 1;
+            duration.day += adjust.getDate();
+        }
+
+        return duration
     }
 };
 

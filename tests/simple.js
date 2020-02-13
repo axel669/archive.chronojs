@@ -1,41 +1,31 @@
 const Chrono = require("../index.js")
 
 const now = Chrono.local(2020, 1, 10)
-const later = now.shift({minute: 5, month: 1, millisecond: 455, second: 31, minute: 4, hour: 15, day: 10})
+const later = now.shift({minute: 5, month: 1, millisecond: 455, second: 31, minute: 4, hour: 15, day: 20})
 
 const dif = Chrono.dif(now, later)
 
-const wat = new Date()
-wat.setTime(dif)
+console.log(dif)
 
-const compose = (...funcs) =>
-    (...arg) => funcs.reduce(
-        (current, next) => next(...current),
-        arg
-    )
+// const wat = new Date()
+// wat.setTime(dif)
 
-const convert = compose(
-    (dif, value) => [
-        {...dif, millisecond: value % 1000},
-        Math.floor(value / 1000)
-    ],
-    (dif, value) => [
-        {...dif, second: value % 60},
-        Math.floor(value / 60)
-    ],
-    (dif, value) => [
-        {...dif, minute: value % 60},
-        Math.floor(value / 60)
-    ],
-    (dif, value) => [
-        {...dif, hour: value % 24},
-        Math.floor(value / 24)
-    ],
-)
+// const duration = convert({}, dif)
+// duration.year = later.year - now.year
+// duration.month = later.month - now.month
+// duration.day = later.day - now.day
 
-console.log(
-    convert({}, dif)
-)
+// if (duration.day < 0) {
+//     const adjust = later.rawDate
+//     adjust.setDate(0)
+//     duration.month -= 1
+//     duration.day += adjust.getDate()
+// }
+
+// console.log(later.daysInMonth)
+// console.log(later.toString())
+
+// console.log(duration)
 
 // const now = new Date()
 // const test = Chrono.fromDate(now)

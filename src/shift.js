@@ -24,7 +24,8 @@ const shift = {
         )
 
         if (date.getDate() !== expectedDay) {
-            date.setDate(0)
+            const correction = (months > 0) ? 0 : 1
+            date.setMonth(date.getMonth() + correction, 0)
         }
     },
     year: (date, years) => date.setYear(
@@ -37,9 +38,9 @@ const shiftOrder = [
     "second",
     "minute",
     "hour",
+    "month",
     "day",
     "week",
-    "month",
     "year",
 ]
 
